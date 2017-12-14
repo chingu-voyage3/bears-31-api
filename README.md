@@ -4,7 +4,9 @@
 
 ## Setup
 
-**ToDo**
+1. Clone the repository.
+2. Fetch the dependencies with `$ npm install` or `$ yarn`.
+3. Run `$ npm run dev` to watch for file changes during development.
 
 ## Stack
 
