@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
-export const app = express();
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,3 +18,5 @@ const PORT = process.env.PORT || 6000;
 app.listen(PORT, () => {
   console.log(`There will be dragons on port ${PORT}`);
 });
+
+module.exports = app;
