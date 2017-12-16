@@ -1,0 +1,54 @@
+{
+  "coverage": "0%",
+  "expectCount": 17,
+  "actualCount": 0,
+  "files": {
+    "src/index.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        19
+      ]
+    },
+    "src/router/groups.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3
+      ]
+    },
+    "src/router/index.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ]
+    },
+    "src/router/meetings.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3
+      ]
+    },
+    "src/router/users.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3
+      ]
+    }
+  }
+}
