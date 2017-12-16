@@ -50,6 +50,7 @@ router.delete("/groups", (req, res) => {
  */
 router.get("/groups/:groupid([0-9]+)/members", (req, res) => {
   let response = {
+    endpoint: "List all the group members",
     group_id: req.params.groupid
   };
   res.json(response);
@@ -63,6 +64,7 @@ router.get("/groups/:groupid([0-9]+)/members", (req, res) => {
  */
 router.post("/groups/:groupid([0-9]+)/members", (req, res) => {
   let response = {
+    endpoint: "Add a group member",
     group_id: req.params.groupid
   };
   res.json(response);
@@ -76,6 +78,7 @@ router.post("/groups/:groupid([0-9]+)/members", (req, res) => {
  */
 router.put("/groups/:groupid([0-9]+)/members/memberid([0-9]+)", (req, res) => {
   let response = {
+    endpoint: "Update a group member",
     group_id: req.params.groupid,
     member_id: req.params.memberid
   };

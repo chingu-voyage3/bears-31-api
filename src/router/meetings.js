@@ -10,6 +10,7 @@ const router = express.Router();
  */
 router.get("/groups/:groupid([0-9]+)/meetings", (req, res) => {
   let response = {
+    endpoint: "List all the group meetings",
     group_id: req.params.groupid
   };
   res.json(response);
@@ -23,6 +24,7 @@ router.get("/groups/:groupid([0-9]+)/meetings", (req, res) => {
  */
 router.post("/groups/:groupid([0-9]+)/meetings", (req, res) => {
   let response = {
+    endpoint: "Create a new group meeting",
     group_id: req.params.groupid
   };
   res.json(response);
@@ -38,6 +40,7 @@ router.get(
   "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)",
   (req, res) => {
     let response = {
+      endpoint: "Details for an specific meeting",
       group_id: req.params.groupid,
       meeting_id: req.params.meetingid
     };
@@ -55,6 +58,7 @@ router.put(
   "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)",
   (req, res) => {
     let response = {
+      endpoint: "Update an specific meeting",
       group_id: req.params.groupid,
       meeting_id: req.params.meetingid
     };
@@ -72,6 +76,7 @@ router.delete(
   "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)",
   (req, res) => {
     let response = {
+      endpoint: "Delete an specific meeting",
       group_id: req.params.groupid,
       meeting_id: req.params.meetingid
     };
@@ -89,6 +94,7 @@ router.put(
   "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:userid([0-9]+)",
   (req, res) => {
     let response = {
+      endpoint: "Update a group member status on a meeting",
       group_id: req.params.groupid
     };
     res.json(response);
