@@ -21,3 +21,5 @@ const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`There will be dragons on port ${PORT}`);
 });
+
+module.exports = app;
