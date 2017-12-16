@@ -86,7 +86,7 @@ router.delete(
  * @return {object} The updated user status
  */
 router.put(
-  "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:usergid([0-9]+)",
+  "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:userid([0-9]+)",
   (req, res) => {
     let response = {
       group_id: req.params.groupid
