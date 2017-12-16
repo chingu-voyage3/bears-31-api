@@ -85,7 +85,7 @@ router.delete(
  * @param {object} res - The response object to write to
  * @return {object} The updated user status
  */
-router.post(
+router.put(
   "/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:usergid([0-9]+)",
   (req, res) => {
     let response = {

@@ -74,7 +74,7 @@ router.post("/groups/:groupid([0-9]+)/members", (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The updated member
  */
-router.get("/groups/:groupid([0-9]+)/members/memberid([0-9]+)", (req, res) => {
+router.put("/groups/:groupid([0-9]+)/members/memberid([0-9]+)", (req, res) => {
   let response = {
     group_id: req.params.groupid,
     member_id: req.params.memberid
@@ -88,13 +88,16 @@ router.get("/groups/:groupid([0-9]+)/members/memberid([0-9]+)", (req, res) => {
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the member was successfully removed or not
  */
-router.get("/groups/:groupid([0-9]+)/members/memberid([0-9]+)", (req, res) => {
-  let response = {
-    endpoint: "Remove a group member",
-    group_id: req.params.groupid,
-    member_id: req.params.memberid
-  };
-  res.json(response);
-});
+router.delete(
+  "/groups/:groupid([0-9]+)/members/memberid([0-9]+)",
+  (req, res) => {
+    let response = {
+      endpoint: "Remove a group member",
+      group_id: req.params.groupid,
+      member_id: req.params.memberid
+    };
+    res.json(response);
+  }
+);
 
 module.exports = router;
