@@ -1,23 +1,18 @@
 {
   "development": {
-    "username": "root",
+    "username": "bear",
     "password": null,
-    "database": "database_development",
+    "database": "hemsut-dev",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "port": 5432,
+    "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "bear",
     "password": null,
-    "database": "database_test",
+    "database": "hemsut-test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "port": 5432,
+    "dialect": "postgres"
   }
 }
