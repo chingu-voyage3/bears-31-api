@@ -1,8 +1,6 @@
-const chai = require('chai');
-const request = require('supertest');
-const app = require('../../src/index');
-
-const expect = chai.expect;
+import { expect } from 'chai';
+import request from 'supertest';
+import app from '../../src/';
 
 describe('GET /', function() {
   it('should return a 200 status code', function() {
