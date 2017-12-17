@@ -1,7 +1,7 @@
-import { expect } from "chai";
+import { expect } from 'chai';
 
-describe("The environment", function() {
-  it("works", function() {
+describe('The environment', function() {
+  it('works', function() {
     expect(true).to.equal(true);
   });
 });

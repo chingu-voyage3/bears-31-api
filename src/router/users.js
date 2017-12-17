@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 
@@ -8,9 +8,9 @@ const router = express.Router();
  * @param {object} res - The response object to write to
  * @return {object} The just created user
  */
-router.post("/users/register", (req, res) => {
+router.post('/users/register', (req, res) => {
   let response = {
-    endpoint: "Register a new user",
+    endpoint: 'Register a new user',
     group_id: req.params.groupid
   };
   res.json(response);
@@ -22,9 +22,9 @@ router.post("/users/register", (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The JWT
  */
-router.post("/users/login", (req, res) => {
+router.post('/users/login', (req, res) => {
   let response = {
-    endpoint: "Get a JWT to login",
+    endpoint: 'Get a JWT to login',
     group_id: req.params.groupid
   };
   res.json(response);
