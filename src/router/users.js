@@ -1,4 +1,5 @@
 const express = require('express');
+const jwtUtils = require('../utils/jwt');
 
 const router = express.Router();
 
@@ -10,8 +11,7 @@ const router = express.Router();
  */
 router.post('/users/register', (req, res) => {
   let response = {
-    endpoint: 'Register a new user',
-    group_id: req.params.groupid
+    endpoint: 'Register a new user'
   };
   res.json(response);
 });
@@ -23,9 +23,13 @@ router.post('/users/register', (req, res) => {
  * @return {object} The JWT
  */
 router.post('/users/login', (req, res) => {
+  const obj = {
+    username: req.body.username
+  };
+  const token = jwtUtils.encodeToken(obj);
   let response = {
     endpoint: 'Get a JWT to login',
-    group_id: req.params.groupid
+    token
   };
   res.json(response);
 });
