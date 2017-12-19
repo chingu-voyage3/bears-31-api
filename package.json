@@ -7,8 +7,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "mocha --require babel-register --recursive ./tests --exit",
-    "e2e-tests":
-      "mocha --require babel-register --recursive ./tests/e2e --exit",
+    "e2e-tests": "mocha --require babel-register --recursive ./tests/e2e --exit",
     "unit-tests": "mocha --require babel-register --recursive ./tests/unit",
     "tdd": "npm run unit-tests -- --watch"
   },
@@ -16,7 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/chingu-voyage3/bears-31-api.git"
   },
-  "keywords": ["hemsut", "chingu", "express", "rest"],
+  "keywords": [
+    "hemsut",
+    "chingu",
+    "express",
+    "rest"
+  ],
   "author": "bears-31",
   "license": "MIT",
   "bugs": {
@@ -27,6 +31,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "morgan": "^1.9.0",
+    "pg": "^7.4.0",
     "sequelize": "^4.28.5"
   },
   "devDependencies": {
