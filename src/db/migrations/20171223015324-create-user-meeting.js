@@ -1,12 +1,20 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('user_groups', {
+    return queryInterface.createTable('user_meetings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      meeting_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'meetings',
+          key: 'id',
+        },
+        allowNull: false,
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -16,17 +24,10 @@ module.exports = {
         },
         allowNull: false,
       },
-      group_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'groups',
-          key: 'id',
-        },
-        allowNull: false,
-      },
-      is_admin: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+      status: {
+        type: Sequelize.ENUM,
+        values: ['Undisclosed', 'Going', 'Maybe', 'Not Going'],
+        defaultValue: 'Undisclosed',
         allowNull: false,
       },
       created_at: {
@@ -40,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('user_groups');
+    return queryInterface.dropTable('user_meetings');
   },
 };

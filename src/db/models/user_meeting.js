@@ -1,12 +1,21 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const UserGroup = sequelize.define(
-    'UserGroup',
+  const UserMeeting = sequelize.define(
+    'UserMeeting',
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
+      },
+
+      meeting_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'meetings',
+          key: 'id',
+        },
         allowNull: false,
       },
 
@@ -19,18 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      group_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'groups',
-          key: 'id',
-        },
-        allowNull: false,
-      },
-
-      is_admin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      status: {
+        type: DataTypes.ENUM,
+        values: ['Undisclosed', 'Going', 'Maybe', 'Not Going'],
+        defaultValue: 'Undisclosed',
         allowNull: false,
       },
     },
@@ -38,11 +39,11 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
       classMethods: {
         associate(models) {
-          UserGroup.belongsTo(models.User);
-          UserGroup.belongsTo(models.Group);
+          UserMeeting.belongsTo(models.User);
+          UserMeeting.belongsTo(models.Meeting);
         },
       },
     },
   );
-  return UserGroup;
+  return UserMeeting;
 };

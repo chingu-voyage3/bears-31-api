@@ -35,7 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate(models) {
           User.belongsToMany(models.Group, { through: models.UserGroup });
+          User.belongsToMany(models.Meeting, { through: models.UserMeeting });
           User.hasMany(models.UserGroup);
+          User.hasMany(models.UserMeeting);
         },
       },
     },

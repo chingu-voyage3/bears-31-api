@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         associate(models) {
           Group.belongsToMany(models.User, { through: models.UserGroup });
           Group.hasMany(models.UserGroup);
+          Group.hasMany(models.Invitation);
+          Group.hasMany(models.Meeting);
         },
       },
     },
