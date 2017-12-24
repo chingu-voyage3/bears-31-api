@@ -1,17 +1,33 @@
+'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Invitation = sequelize.define('Invitation', {
-    group_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'group',
-        key: 'id',
+  const Invitation = sequelize.define(
+    'Invitation',
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+
+      group_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'groups',
+          key: 'id',
+        },
+      },
+
+      user_email: DataTypes.STRING,
+    },
+    {
+      underscored: true,
+      classMethods: {
+        associate(models) {
+          Invitation.belongsTo(models.Group);
+        },
       },
     },
-    user_email: DataTypes.STRING,
-  });
-  Invitation.associate = (models) => {
-    Invitation.belongsTo(models.Meeting, { foreignKey: 'group_id', onDelete: 'CASCADE' });
-  };
-
+  );
   return Invitation;
 };
