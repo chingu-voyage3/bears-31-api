@@ -1,5 +1,6 @@
 const express = require('express');
 const jwtUtils = require('../utils/jwt');
+const authHelper = require('../utils/authHelper');
 
 const router = express.Router();
 
@@ -9,12 +10,20 @@ const router = express.Router();
  * @param {object} res - The response object to write to
  * @return {object} The just created user
  */
-router.post('/users/register', (req, res) => {
-  let response = {
-    endpoint: 'Register a new user'
-  };
-  res.json(response);
-});
+router.post('/users/register', (req, res) => authHelper
+  .createUser(req)
+  .then(user => jwtUtils.encodeToken(user[0]))
+  .then((token) => {
+    res.status(200).json({
+      token,
+      status: 'sucess',
+    });
+  })
+  .catch((err) => {
+    res.status(500).json({
+      status: 'error',
+    });
+  }));
 
 /**
  * Get a JWT to login
@@ -24,12 +33,12 @@ router.post('/users/register', (req, res) => {
  */
 router.post('/users/login', (req, res) => {
   const obj = {
-    username: req.body.username
+    username: req.body.username,
   };
   const token = jwtUtils.encodeToken(obj);
-  let response = {
+  const response = {
     endpoint: 'Get a JWT to login',
-    token
+    token,
   };
   res.json(response);
 });
