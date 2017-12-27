@@ -1,6 +1,7 @@
+'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('user_meetings', {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('user_groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,17 +14,20 @@ module.exports = {
           model: 'users',
           key: 'id',
         },
+        allowNull: false,
       },
-      meeting_id: {
+      group_id: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
         references: {
-          model: 'meetings',
+          model: 'groups',
           key: 'id',
         },
+        allowNull: false,
       },
-      status: {
-        type: Sequelize.STRING,
+      is_admin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,
@@ -33,6 +37,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('user_meetings'),
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('user_groups');
+  },
 };

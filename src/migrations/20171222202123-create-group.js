@@ -1,22 +1,16 @@
+'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('invitations', {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      group_id: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'groups',
-          key: 'id',
-        },
-      },
-      user_email: {
+      name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,
@@ -26,6 +20,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('invitations'),
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('groups');
+  }
 };
