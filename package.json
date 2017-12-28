@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "mocha --require babel-register --recursive ./tests --exit",
-    "e2e-tests": "mocha --require babel-register --recursive ./tests/e2e --exit",
-    "unit-tests": "mocha --require babel-register --recursive ./tests/unit",
+    "test": "mocha --require babel-register --require babel-polyfill --recursive ./tests --exit",
+    "e2e-tests": "mocha --require babel-register --require babel-polyfill --recursive ./tests/e2e --exit",
+    "unit-tests": "mocha --require babel-register --require babel-polyfill --recursive ./tests/unit",
     "tdd": "npm run unit-tests -- --watch"
   },
   "repository": {
@@ -39,6 +39,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
     "esdoc": "^1.0.4",
