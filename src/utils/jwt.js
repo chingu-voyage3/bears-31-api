@@ -25,5 +25,5 @@ function decodeToken(token) {
 
 module.exports = {
   encodeToken,
-  decodeToken
+  decodeToken,
 };
