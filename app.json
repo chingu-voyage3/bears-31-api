@@ -1,0 +1,21 @@
+{
+  "name": "hemsut-api",
+  "scripts": {
+    "postdeploy": [
+      "sequelize db:migrate"
+    ]
+  },
+  "env": {
+    "DATABASE_URL": {
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
