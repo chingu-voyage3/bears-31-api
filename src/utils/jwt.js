@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken');
 function encodeToken(payload) {
   // ToDo read secret from environment variable or use
   // a certificate
-  return jwt.sign(payload, 'secret');
+  return jwt.sign(payload, 'secret', {
+    expiresIn: '7d',
+  });
 }
 
 /**
