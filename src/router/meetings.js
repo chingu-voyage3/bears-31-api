@@ -65,27 +65,20 @@ router.post('/groups/:groupid([0-9]+)/meetings', (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The meeting object
  */
-/*
 router.get(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
     // ToDo: Only group members should be able to access this endpoint
     const { groupid, meetingid } = req.params;
-    models.Meeting.findOne({
-      where: {
-        group_id: groupid,
-        id: meetingid,
-      },
-    })
+    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()
       .then((meeting) => {
         res.json(meeting);
       })
       .catch((err) => {
         res.json(err);
       });
-  }
+  },
 );
-*/
 
 /**
  * Update an specific meeting
