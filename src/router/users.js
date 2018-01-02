@@ -85,12 +85,12 @@ router.get('/users', async (req, res) => {
  */
 router.get('/users/:username', async (req, res) => {
   const { username } = req.params;
-  User.byUsername(username)
-    .then((u) => {
-      res.json(u);
+  User.forge({ username }).fetch({ withRelated: ['groups'] })
+    .then((user) => {
+      res.send(user);
     })
     .catch((err) => {
-      res.json(err);
+      res.send(err);
     });
 });
 
