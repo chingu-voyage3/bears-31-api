@@ -80,18 +80,18 @@ router.put('/groups/:groupid([0-9]+)', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the group was successfully deleted or not
  */
-/*
-router.delete('/groups/:groupid([0-9]+)', async (req, res) => {
+router.delete('/groups/:groupid([0-9]+)', checkAuth, async (req, res) => {
   // ToDo: Only admins of the group should be able to access this endpoint
-  const { id } = req.params;
-  const group = await models.Group.findOne({ where: { id } });
-  group.destroy().then((queryResult) => {
-    res.json(queryResult);
-  }).catch((err) => {
-    res.json(err);
-  });
+  const { groupid } = req.params;
+  Group.forge({ id: groupid }).fetch()
+    .then((group) => {
+      group.users().detach();
+      group.destroy()
+        .then(() => res.json('group deleted'))
+        .catch(err => res.json(err));
+    })
+    .catch(err => res.json(err));
 });
-*/
 
 /**
  * List all the group members
