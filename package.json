@@ -33,10 +33,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
-    "morgan": "^1.9.0",
-    "pg": "^7.4.0",
-    "sequelize": "^4.28.5",
-    "sequelize-cli": "^3.2.0"
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
