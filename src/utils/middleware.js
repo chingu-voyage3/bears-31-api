@@ -1,5 +1,5 @@
-const decodeToken = require('./jwt').decodeToken;
-const models = require('../models');
+const { decodeToken } = require('./jwt');
+const { User } = require('../models');
 
 const checkAuth = (req, res, next) => {
   // Check if there's a token in the request, if not reject
@@ -12,18 +12,11 @@ const checkAuth = (req, res, next) => {
     const payload = decodeToken(jwt);
     if (!payload) {
       res.send(401, 'Invalid token');
-    }
-    else {
-      models.User.findOne({
-        where: {
-          username: payload.username,
-        },
-      })
-        .then((user) => {
-          next();
-        })
+    } else {
+      User.byUsername(payload.username)
+        .then(() => next())
         .catch((err) => {
-          console.error(err);
+          console.log(err);
         });
     }
   }
