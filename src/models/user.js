@@ -1,3 +1,30 @@
+const bcrypt = require('bcrypt');
+const bookshelf = require('../bookshelf');
+
+const User = bookshelf.Model.extend({
+  tableName: 'users',
+  hasTimestamps: true,
+
+  verifyPassword(password) {
+    return bcrypt.compareSync(password, this.get('password'));
+  },
+}, {
+  create(data, options) {
+    return this.forge(data).save(null, options);
+  },
+
+  byUsername(username) {
+    return this.forge().query({ where: { username } }).fetch();
+  },
+
+  byEmail(email) {
+    return this.forge().query({ where: { email } }).fetch();
+  },
+});
+
+module.exports = User;
+
+/*
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
@@ -61,3 +88,4 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
+*/
