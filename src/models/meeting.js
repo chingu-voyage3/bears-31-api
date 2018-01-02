@@ -8,6 +8,10 @@ const Meeting = bookshelf.Model.extend({
   group() {
     return this.belongsTo(Group);
   },
+
+  users() {
+    return this.belongsToMany('User', 'users_meetings');
+  },
 });
 
 const Meetings = bookshelf.Collection.extend({
