@@ -22,7 +22,14 @@ const User = bookshelf.Model.extend({
   },
 });
 
-module.exports = User;
+const Users = bookshelf.Collection.extend({
+  model: User,
+});
+
+module.exports = {
+  User,
+  Users,
+};
 
 /*
 'use strict';
