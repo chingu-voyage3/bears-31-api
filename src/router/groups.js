@@ -1,5 +1,7 @@
 const express = require('express');
-const { Group, Groups } = require('../models');
+const { User, Group, Groups } = require('../models');
+const { decodeToken } = require('../utils/jwt');
+const { checkAuth } = require('../utils/middleware');
 
 const router = express.Router();
 
@@ -25,14 +27,30 @@ router.get('/groups', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The new group object
  */
-router.post('/groups', async (req, res) => {
-  const { name } = req.body;
-  const data = {
-    name,
-  };
-  Group.forge(data).save()
-    .then((g) => {
-      res.json(g);
+router.post('/groups', checkAuth, async (req, res) => {
+  // Gets the token payload
+  const token = decodeToken(req.headers.authorization);
+
+  // Tries to find an user for the token username
+  // if it finds the user, then it will try to create
+  // the group, if the operation is successful, it will
+  // attach the user to the group, doing so, it will create
+  // a new row in the users_groups table so we can query
+  // for the related groups/users from each model
+  User.byUsername(token.username)
+    .then((user) => {
+      const { name } = req.body;
+      const data = {
+        name,
+      };
+      Group.forge(data).save()
+        .then((group) => {
+          user.groups().attach(group);
+          res.json(group);
+        })
+        .catch((err) => {
+          res.json(err);
+        });
     })
     .catch((err) => {
       res.json(err);
@@ -81,15 +99,18 @@ router.delete('/groups/:groupid([0-9]+)', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object[]} The array of members
  */
-/*
 router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
-  const response = {
-    endpoint: 'List all the group members',
-    group_id: req.params.groupid,
-  };
-  res.json(response);
+  const { groupid } = req.params;
+  Group.forge({ id: groupid }).fetch({ withRelated: ['users'] })
+    .then((group) => {
+      console.log(`The group: ${group}`);
+      res.json(group);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json(err);
+    });
 });
-*/
 
 /**
  * Add a group member
