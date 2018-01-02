@@ -70,7 +70,6 @@ router.post('/users/login', async (req, res) => {
 router.get('/users', async (req, res) => {
   Users.forge().fetch()
     .then((users) => {
-      // users.toJSON()
       res.json(users);
     })
     .catch((err) => {
