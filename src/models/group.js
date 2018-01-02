@@ -1,3 +1,24 @@
+const bookshelf = require('../bookshelf');
+
+const Group = bookshelf.Model.extend({
+  tableName: 'groups',
+  hasTimestamps: true,
+}, {
+  create(data, options) {
+    return this.forge(data).save(null, options);
+  },
+});
+
+const Groups = bookshelf.Collection.extend({
+  model: Group,
+});
+
+module.exports = {
+  Group,
+  Groups,
+};
+
+/*
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define(
@@ -29,3 +50,4 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Group;
 };
+*/
