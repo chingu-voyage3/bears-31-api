@@ -86,39 +86,33 @@ router.get(
  * @param {object} res - The response object to write to
  * @return {object} The updated meeting object
  */
-/*
 router.put(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
     // ToDo: Only group admins should be able to access this endpoint
     const { groupid, meetingid } = req.params;
-    const { title, location, details, due } = req.body;
-    models.Meeting.findOne({
-      where: {
-        group_id: groupid,
-        id: meetingid,
-      },
-    })
+    const {
+      title, location, details, due,
+    } = req.body;
+    Meeting.forge({ group_id: groupid, id: meetingid }).fetch()
       .then((meeting) => {
-        meeting.update({
-          title,
-          location,
-          details,
-          due,
+        meeting.save({
+          title: title || meeting.get('title'),
+          location: location || meeting.get('location'),
+          details: details || meeting.get('details'),
+          due: due || meeting.get('due'),
         })
-          .then((updatedMeeting) => {
-            res.json(updatedMeeting);
+          .then(() => {
+            res.json({
+              message: 'Meeting updated',
+            });
           })
           .catch((err) => {
             res.json(err);
           });
-      })
-      .catch((err) => {
-        res.json(err);
       });
-  }
+  },
 );
-*/
 
 /**
  * Delete an specific meeting
