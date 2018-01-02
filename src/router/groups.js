@@ -191,22 +191,25 @@ router.put('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res)
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the member was successfully removed or not
  */
-/*
-router.delete('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res) => {
+router.delete('/groups/:groupid([0-9]+)/members/:username', async (req, res) => {
   // ToDo: Only group admins should be able to access this endpoint
-  const { groupid, memberid } = req.params;
-  const userGroup = await models.UserGroup.findOne({
-    where: {
-      group_id: groupid,
-      user_id: memberid,
-    },
-  });
-  userGroup.destroy().then((queryResult) => {
-    res.json(queryResult);
-  }).catch((err) => {
-    res.json(err);
-  });
+  const { groupid, username } = req.params;
+  Group.forge({ id: groupid }).fetch()
+    .then((group) => {
+      User.byUsername(username)
+        .then((user) => {
+          group.users().detach(user);
+          res.json({
+            message: 'User removed successfully',
+          });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
-*/
 
 module.exports = router;
