@@ -9,6 +9,10 @@ const User = bookshelf.Model.extend({
     return this.belongsToMany('Group', 'users_groups');
   },
 
+  meetings() {
+    return this.belongsToMany('Meeting', 'users_meetings');
+  },
+
   verifyPassword(password) {
     return bcrypt.compareSync(password, this.get('password'));
   },
