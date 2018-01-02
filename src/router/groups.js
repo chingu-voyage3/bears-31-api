@@ -130,11 +130,28 @@ router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The new member
  */
-/*
 router.post('/groups/:groupid([0-9]+)/members', async (req, res) => {
   // ToDo: Make endpoint only accessible to group admins
-  const { id } = req.params;
+  const { groupid } = req.params;
   const { email, username } = req.body;
+
+  Group.forge({ id: groupid }).fetch()
+    .then((group) => {
+      User.byUsername(username)
+        .then((user) => {
+          group.users().attach(user);
+          res.json({
+            message: 'User added to the group',
+          });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+  /*
   let user;
   // If an email was passed, we prioritize it
   if (email) {
@@ -145,8 +162,8 @@ router.post('/groups/:groupid([0-9]+)/members', async (req, res) => {
   }
   const userGroup = await models.UserGroup.create({ group_id: id, user_id: user.id });
   res.json(userGroup);
+  */
 });
-*/
 
 /**
  * Update a group member (change its role)
