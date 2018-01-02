@@ -9,7 +9,9 @@
     "test": "mocha --require babel-register --require babel-polyfill --recursive ./tests --exit",
     "e2e-tests": "mocha --require babel-register --require babel-polyfill --recursive ./tests/e2e --exit",
     "unit-tests": "mocha --require babel-register --require babel-polyfill --recursive ./tests/unit",
-    "tdd": "npm run unit-tests -- --watch"
+    "tdd": "npm run unit-tests -- --watch",
+    "migrate:latest": "node_modules/.bin/knex migrate:latest",
+    "migrate:rollback": "node_modules/.bin/knex migrate:rollback"
   },
   "repository": {
     "type": "git",
