@@ -20,6 +20,10 @@ const User = bookshelf.Model.extend({
   byEmail(email) {
     return this.forge().query({ where: { email } }).fetch();
   },
+
+  findAll(filter, options) {
+    return this.forge().where(filter).fetchAll(options);
+  },
 });
 
 const Users = bookshelf.Collection.extend({
