@@ -1,7 +1,23 @@
 const express = require('express');
-const models = require('../models');
+const { Group, Groups } = require('../models');
 
 const router = express.Router();
+
+/**
+ * List all the groups
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object[]} The array of groups
+ */
+router.get('/groups', async (req, res) => {
+  Groups.forge().fetch()
+    .then((groups) => {
+      res.json(groups);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
 /**
  * Create a new group
@@ -11,9 +27,16 @@ const router = express.Router();
  */
 router.post('/groups', async (req, res) => {
   const { name } = req.body;
-  const group = await models.Group.create({ name });
-  // ToDo: Assign the user who created the group as admin
-  res.json(group);
+  const data = {
+    name,
+  };
+  Group.forge(data).save()
+    .then((g) => {
+      res.json(g);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 /**
@@ -22,6 +45,7 @@ router.post('/groups', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The updated group object
  */
+/*
 router.put('/groups/:groupid([0-9]+)', async (req, res) => {
   // ToDo: Only admins of the group should be able to access this endpoint
   const { id } = req.params;
@@ -30,6 +54,7 @@ router.put('/groups/:groupid([0-9]+)', async (req, res) => {
   const updatedGroup = await group.update({ name });
   res.json(updatedGroup);
 });
+*/
 
 /**
  * Delete a specific group
@@ -37,6 +62,7 @@ router.put('/groups/:groupid([0-9]+)', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the group was successfully deleted or not
  */
+/*
 router.delete('/groups/:groupid([0-9]+)', async (req, res) => {
   // ToDo: Only admins of the group should be able to access this endpoint
   const { id } = req.params;
@@ -47,6 +73,7 @@ router.delete('/groups/:groupid([0-9]+)', async (req, res) => {
     res.json(err);
   });
 });
+*/
 
 /**
  * List all the group members
@@ -54,6 +81,7 @@ router.delete('/groups/:groupid([0-9]+)', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object[]} The array of members
  */
+/*
 router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
   const response = {
     endpoint: 'List all the group members',
@@ -61,6 +89,7 @@ router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
   };
   res.json(response);
 });
+*/
 
 /**
  * Add a group member
@@ -68,6 +97,7 @@ router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The new member
  */
+/*
 router.post('/groups/:groupid([0-9]+)/members', async (req, res) => {
   // ToDo: Make endpoint only accessible to group admins
   const { id } = req.params;
@@ -83,6 +113,7 @@ router.post('/groups/:groupid([0-9]+)/members', async (req, res) => {
   const userGroup = await models.UserGroup.create({ group_id: id, user_id: user.id });
   res.json(userGroup);
 });
+*/
 
 /**
  * Update a group member (change its role)
@@ -90,6 +121,7 @@ router.post('/groups/:groupid([0-9]+)/members', async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The updated member
  */
+/*
 router.put('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res) => {
   // ToDo: Only group admins should be able to access this endpoint
   const { groupid, memberid } = req.params;
@@ -103,6 +135,7 @@ router.put('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res)
   const updatedUserGroup = await userGroup.update({ is_admin: isAdmin });
   res.json(updatedUserGroup);
 });
+*/
 
 /**
  * Remove a group member
@@ -110,6 +143,7 @@ router.put('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res)
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the member was successfully removed or not
  */
+/*
 router.delete('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res) => {
   // ToDo: Only group admins should be able to access this endpoint
   const { groupid, memberid } = req.params;
@@ -125,5 +159,6 @@ router.delete('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, r
     res.json(err);
   });
 });
+*/
 
 module.exports = router;
