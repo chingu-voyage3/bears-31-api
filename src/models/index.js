@@ -1,9 +1,15 @@
-const { User, Users } = require('./user');
 const { Group, Groups } = require('./group');
+const { Invitation, Invitations } = require('./invitation');
+const { Meeting, Meetings } = require('./meeting');
+const { User, Users } = require('./user');
 
 module.exports = {
-  User,
-  Users,
   Group,
   Groups,
+  Invitation,
+  Invitations,
+  Meeting,
+  Meetings,
+  User,
+  Users,
 };
