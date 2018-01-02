@@ -120,24 +120,18 @@ router.put(
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the deletion was successful or not
  */
-/*
 router.delete(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
     const { groupid, meetingid } = req.params;
-    models.Meeting.findOne({
-      where: {
-        group_id: groupid,
-        id: meetingid,
-      },
-    })
+    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()
       .then((meeting) => {
+        meeting.users().detach();
         meeting.destroy()
           .then(() => {
-            const response = {
-              message: 'Meeting deleted',
-            };
-            res.json(response);
+            res.json({
+              message: 'Meeting deleted successfully',
+            });
           })
           .catch((err) => {
             res.json(err);
@@ -146,9 +140,8 @@ router.delete(
       .catch((err) => {
         res.json(err);
       });
-  }
+  },
 );
-*/
 
 /**
  * Update a group member status on a meeting
