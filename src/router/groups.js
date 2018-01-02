@@ -115,11 +115,9 @@ router.get('/groups/:groupid([0-9]+)/members', (req, res) => {
   const { groupid } = req.params;
   Group.forge({ id: groupid }).fetch({ withRelated: ['users'] })
     .then((group) => {
-      console.log(`The group: ${group}`);
       res.json(group);
     })
     .catch((err) => {
-      console.error(err);
       res.json(err);
     });
 });
