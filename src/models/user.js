@@ -5,6 +5,10 @@ const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
 
+  groups() {
+    return this.belongsToMany('Group', 'users_groups', 'group_id', 'user_id');
+  },
+
   verifyPassword(password) {
     return bcrypt.compareSync(password, this.get('password'));
   },
@@ -30,10 +34,8 @@ const Users = bookshelf.Collection.extend({
   model: User,
 });
 
-module.exports = {
-  User,
-  Users,
-};
+module.exports.User = bookshelf.model('User', User);
+module.exports.Users = bookshelf.model('Users', Users);
 
 /*
 'use strict';

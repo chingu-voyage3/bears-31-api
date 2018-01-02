@@ -3,9 +3,17 @@ const bookshelf = require('../bookshelf');
 const Group = bookshelf.Model.extend({
   tableName: 'groups',
   hasTimestamps: true,
+
+  users() {
+    return this.belongsToMany('User', 'users_groups', 'group_id', 'user_id');
+  },
 }, {
   create(data, options) {
     return this.forge(data).save(null, options);
+  },
+
+  byID(id) {
+    return this.forge().query({ where: { id } }).fetch();
   },
 });
 
@@ -13,10 +21,8 @@ const Groups = bookshelf.Collection.extend({
   model: Group,
 });
 
-module.exports = {
-  Group,
-  Groups,
-};
+module.exports.Group = bookshelf.model('Group', Group);
+module.exports.Groups = bookshelf.model('Groups', Groups);
 
 /*
 'use strict';
