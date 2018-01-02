@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const { User, Users } = require('../models');
 const jwtUtils = require('../utils/jwt');
 
 const router = express.Router();
@@ -12,7 +12,10 @@ const router = express.Router();
  * @return {object} The just created user
  */
 router.post('/users/register', async (req, res) => {
-  const { username, firstName, lastName, email, password } = req.body;
+  const {
+    username, firstName, lastName, email, password,
+  } = req.body;
+
   const hashedPassword = bcrypt.hashSync(password, 10);
   const user = new User();
   user.set('username', username);
@@ -56,33 +59,40 @@ router.post('/users/login', async (req, res) => {
     .catch((err) => {
       res.json(err);
     });
-  /*
-  models.User.findOne({
-    where: {
-      username,
-    },
-  }).then((user) => {
-    bcrypt.compare(password, user.password, (err, valid) => {
-      if (valid) {
-        const payload = {
-          username: user.username,
-        };
-        const token = jwtUtils.encodeToken(payload);
-        const response = {
-          token,
-        };
-        res.json(response);
-      } else {
-        const response = {
-          error: 'Invalid credentials',
-        };
-        res.json(response);
-      }
+});
+
+/**
+ * Get a list of all the users
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object[]} The list of users
+ */
+router.get('/users', async (req, res) => {
+  Users.forge().fetch()
+    .then((users) => {
+      // users.toJSON()
+      res.json(users);
+    })
+    .catch((err) => {
+      res.json(err);
     });
-  }).catch((err) => {
-    res.json(err);
-  });
-  */
+});
+
+/**
+ * Get a single user using its username
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object} The user
+ */
+router.get('/users/:username', async (req, res) => {
+  const { username } = req.params;
+  User.byUsername(username)
+    .then((u) => {
+      res.json(u);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 module.exports = router;
