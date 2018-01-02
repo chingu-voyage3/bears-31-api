@@ -63,16 +63,28 @@ router.post('/groups', checkAuth, async (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The updated group object
  */
-/*
 router.put('/groups/:groupid([0-9]+)', async (req, res) => {
   // ToDo: Only admins of the group should be able to access this endpoint
-  const { id } = req.params;
-  const group = await models.Group.findOne({ where: { id } });
+  const { groupid } = req.params;
   const { name } = req.body;
-  const updatedGroup = await group.update({ name });
-  res.json(updatedGroup);
+  Group.forge({ id: groupid }).fetch()
+    .then((group) => {
+      group.save({
+        name: name || group.get('name'),
+      })
+        .then(() => {
+          res.json({
+            message: 'Group updated',
+          });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
-*/
 
 /**
  * Delete a specific group
