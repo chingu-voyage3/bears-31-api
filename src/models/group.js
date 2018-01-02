@@ -1,5 +1,6 @@
 const bookshelf = require('../bookshelf');
 const { Invitation } = require('./invitation');
+const { Meeting } = require('./meeting');
 
 const Group = bookshelf.Model.extend({
   tableName: 'groups',
@@ -11,6 +12,10 @@ const Group = bookshelf.Model.extend({
 
   invitations() {
     return this.hasMany(Invitation);
+  },
+
+  meetings() {
+    return this.hasMany(Meeting);
   },
 }, {
   create(data, options) {
