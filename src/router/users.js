@@ -85,7 +85,7 @@ router.get('/users', async (req, res) => {
  */
 router.get('/users/:username', async (req, res) => {
   const { username } = req.params;
-  User.forge({ username }).fetch({ withRelated: ['groups'] })
+  User.forge({ username }).fetch({ withRelated: ['groups', 'meetings'] })
     .then((user) => {
       res.send(user);
     })
