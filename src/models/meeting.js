@@ -1,54 +1,18 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const Meeting = sequelize.define(
-    'Meeting',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
+const bookshelf = require('../bookshelf');
+const { Group } = require('./group');
 
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const Meeting = bookshelf.Model.extend({
+  tableName: 'meetings',
+  hasTimestamps: true,
 
-      location: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+  group() {
+    return this.belongsTo(Group);
+  },
+});
 
-      details: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
+const Meetings = bookshelf.Collection.extend({
+  model: Meeting,
+});
 
-      due: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-
-      group_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'groups',
-          key: 'id',
-        },
-        allowNull: false,
-      },
-    },
-    {
-      underscored: true,
-      classMethods: {
-        associate(models) {
-          Meeting.belongsTo(models.Group);
-          Meeting.belongsToMany(models.User, { through: models.UserGroup });
-          Meeting.hasMany(models.UserMeeting);
-        },
-      },
-    },
-  );
-  return Meeting;
-};
+module.exports.Meeting = bookshelf.model('Meeting', Meeting);
+module.exports.Meetings = bookshelf.model('Meetings', Meetings);
