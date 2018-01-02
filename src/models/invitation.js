@@ -1,33 +1,22 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const Invitation = sequelize.define(
-    'Invitation',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
+const bookshelf = require('../bookshelf');
+const { Group } = require('./group');
 
-      group_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'groups',
-          key: 'id',
-        },
-      },
+const Invitation = bookshelf.Model.extend({
+  tableName: 'invitations',
+  hasTimestamps: true,
 
-      user_email: DataTypes.STRING,
-    },
-    {
-      underscored: true,
-      classMethods: {
-        associate(models) {
-          Invitation.belongsTo(models.Group);
-        },
-      },
-    },
-  );
-  return Invitation;
-};
+  group() {
+    return this.belongsTo(Group);
+  },
+}, {
+  byEmail(email) {
+    return this.forge().query({ where: { email } }).fetch();
+  },
+});
+
+const Invitations = bookshelf.Collection.extend({
+  model: Invitation,
+});
+
+module.exports.Invitation = bookshelf.model('Invitation', Invitation);
+module.exports.Invitations = bookshelf.model('Invitations', Invitations);
