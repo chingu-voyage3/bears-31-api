@@ -1,5 +1,5 @@
 const express = require('express');
-const models = require('../models');
+const { Group, Meeting } = require('../models');
 
 const router = express.Router();
 
@@ -12,9 +12,9 @@ const router = express.Router();
 router.get('/groups/:groupid([0-9]+)/meetings', async (req, res) => {
   // ToDo: Only group members should be able to access the endpoint
   const { groupid } = req.params;
-  models.Meeting.findAll({where: { group_id: groupid } })
-    .then((meetings) => {
-      res.json(meetings);
+  Group.forge({ id: groupid }).fetch({ withRelated: ['meetings'] })
+    .then((group) => {
+      res.json(group);
     })
     .catch((err) => {
       res.json(err);
@@ -33,17 +33,26 @@ router.post('/groups/:groupid([0-9]+)/meetings', (req, res) => {
   // to notify all members so they can create their own status
   // instead of doing it API side
   const { groupid } = req.params;
-  const { title, location, details, due } = req.body;
+  const {
+    title, location, details, due,
+  } = req.body;
   // ToDo: check if the group exists
-  models.Meeting.create({
-    title,
-    location,
-    details,
-    due,
-    group_id: groupid,
-  })
-    .then((meeting) => {
-      res.json(meeting);
+  Group.byID(groupid)
+    .then((group) => {
+      const data = {
+        title,
+        location,
+        details,
+        due,
+        group_id: group.id,
+      };
+      Meeting.forge(data).save()
+        .then((meeting) => {
+          res.json(meeting);
+        })
+        .catch((err) => {
+          res.json(err);
+        });
     })
     .catch((err) => {
       res.json(err);
@@ -56,6 +65,7 @@ router.post('/groups/:groupid([0-9]+)/meetings', (req, res) => {
  * @param {object} res - The response object to write to
  * @return {object} The meeting object
  */
+/*
 router.get(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
@@ -75,6 +85,7 @@ router.get(
       });
   }
 );
+*/
 
 /**
  * Update an specific meeting
@@ -82,6 +93,7 @@ router.get(
  * @param {object} res - The response object to write to
  * @return {object} The updated meeting object
  */
+/*
 router.put(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
@@ -113,6 +125,7 @@ router.put(
       });
   }
 );
+*/
 
 /**
  * Delete an specific meeting
@@ -120,6 +133,7 @@ router.put(
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the deletion was successful or not
  */
+/*
 router.delete(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',
   async (req, res) => {
@@ -147,6 +161,7 @@ router.delete(
       });
   }
 );
+*/
 
 /**
  * Update a group member status on a meeting
@@ -154,6 +169,7 @@ router.delete(
  * @param {object} res - The response object to write to
  * @return {object} The updated user status
  */
+/*
 router.put(
   '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:userid([0-9]+)',
   async (req, res) => {
@@ -180,5 +196,6 @@ router.put(
       });
   }
 );
+*/
 
 module.exports = router;
