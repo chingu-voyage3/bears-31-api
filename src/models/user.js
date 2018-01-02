@@ -6,7 +6,7 @@ const User = bookshelf.Model.extend({
   hasTimestamps: true,
 
   groups() {
-    return this.belongsToMany('Group', 'users_groups', 'group_id', 'user_id');
+    return this.belongsToMany('Group', 'users_groups');
   },
 
   verifyPassword(password) {

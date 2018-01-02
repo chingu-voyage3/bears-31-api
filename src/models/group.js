@@ -5,7 +5,7 @@ const Group = bookshelf.Model.extend({
   hasTimestamps: true,
 
   users() {
-    return this.belongsToMany('User', 'users_groups', 'group_id', 'user_id');
+    return this.belongsToMany('User', 'users_groups');
   },
 }, {
   create(data, options) {
