@@ -6,7 +6,9 @@
 
 1. Clone the repository.
 2. Fetch the dependencies with `$ npm install` or `$ yarn`.
-3. Run `$ npm run dev` to watch for file changes during development.
+3. Create a **PostgreSQL** database and update the [config](knexfile.js) file.
+4. Run the migrations with `$ npm run migrate:latest`.
+3. Start the server with `$ npm run dev` to watch for file changes during development.
 
 ## Testing
 

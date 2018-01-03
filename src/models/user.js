@@ -1,63 +1,42 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'User',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
+const bcrypt = require('bcrypt');
+const bookshelf = require('../bookshelf');
 
-      username: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
+const User = bookshelf.Model.extend({
+  tableName: 'users',
+  hasTimestamps: true,
 
-      first_name: {
-        type: DataTypes.STRING,
-      },
+  groups() {
+    return this.belongsToMany('Group', 'users_groups');
+  },
 
-      last_name: {
-        type: DataTypes.STRING,
-      },
+  meetings() {
+    return this.belongsToMany('Meeting', 'users_meetings');
+  },
 
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
+  verifyPassword(password) {
+    return bcrypt.compareSync(password, this.get('password'));
+  },
+}, {
+  create(data, options) {
+    return this.forge(data).save(null, options);
+  },
 
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    },
-    {
-      underscored: true,
-      classMethods: {
-        associate(models) {
-          User.belongsToMany(models.Group, { through: models.UserGroup });
-          User.belongsToMany(models.Meeting, { through: models.UserMeeting });
-          User.hasMany(models.UserGroup);
-          User.hasMany(models.UserMeeting);
-        },
-      },
-    },
-    {
-      indexes: [
-        {
-          unique: true,
-          fields: ['username'],
-        },
-        {
-          unique: true,
-          fields: ['email'],
-        },
-      ],
-    },
-  );
-  return User;
-};
+  byUsername(username) {
+    return this.forge().query({ where: { username } }).fetch();
+  },
+
+  byEmail(email) {
+    return this.forge().query({ where: { email } }).fetch();
+  },
+
+  findAll(filter, options) {
+    return this.forge().where(filter).fetchAll(options);
+  },
+});
+
+const Users = bookshelf.Collection.extend({
+  model: User,
+});
+
+module.exports.User = bookshelf.model('User', User);
+module.exports.Users = bookshelf.model('Users', Users);
