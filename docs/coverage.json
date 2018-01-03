@@ -1,26 +1,91 @@
 {
-  "coverage": "0%",
-  "expectCount": 17,
-  "actualCount": 0,
+  "coverage": "3.57%",
+  "expectCount": 56,
+  "actualCount": 2,
   "files": {
+    "src/bookshelf.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        5,
+        6
+      ]
+    },
     "src/index.js": {
-      "expectCount": 6,
+      "expectCount": 7,
       "actualCount": 0,
       "undocumentLines": [
         1,
         2,
         3,
         4,
-        6,
-        19
+        5,
+        7,
+        22
       ]
     },
-    "src/router/groups.js": {
-      "expectCount": 2,
+    "src/models/group.js": {
+      "expectCount": 5,
       "actualCount": 0,
       "undocumentLines": [
         1,
-        3
+        2,
+        3,
+        5,
+        30
+      ]
+    },
+    "src/models/index.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "src/models/invitation.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        4,
+        17
+      ]
+    },
+    "src/models/meeting.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        4,
+        17
+      ]
+    },
+    "src/models/user.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        4,
+        37
+      ]
+    },
+    "src/router/groups.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        6
       ]
     },
     "src/router/index.js": {
@@ -35,19 +100,39 @@
       ]
     },
     "src/router/meetings.js": {
-      "expectCount": 2,
+      "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
         1,
-        3
+        2,
+        4
       ]
     },
     "src/router/users.js": {
-      "expectCount": 2,
+      "expectCount": 5,
       "actualCount": 0,
       "undocumentLines": [
         1,
-        3
+        2,
+        3,
+        4,
+        6
+      ]
+    },
+    "src/utils/jwt.js": {
+      "expectCount": 3,
+      "actualCount": 2,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/middleware.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        4
       ]
     }
   }

@@ -282,9 +282,51 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/bookshelf.js",
+    "file/src/bookshelf.js.html",
+    "src/bookshelf.js",
+    "file"
+  ],
+  [
     "src/index.js",
     "file/src/index.js.html",
     "src/index.js",
+    "file"
+  ],
+  [
+    "src/models/group.js",
+    "file/src/models/group.js.html",
+    "src/models/group.js",
+    "file"
+  ],
+  [
+    "src/models/index.js",
+    "file/src/models/index.js.html",
+    "src/models/index.js",
+    "file"
+  ],
+  [
+    "src/models/invitation.js",
+    "file/src/models/invitation.js.html",
+    "src/models/invitation.js",
+    "file"
+  ],
+  [
+    "src/models/meeting.js",
+    "file/src/models/meeting.js.html",
+    "src/models/meeting.js",
+    "file"
+  ],
+  [
+    "src/models/user.js",
+    "file/src/models/user.js.html",
+    "src/models/user.js",
+    "file"
+  ],
+  [
+    "src/models/user_meeting.js",
+    "file/src/models/user_meeting.js.html",
+    "src/models/user_meeting.js",
     "file"
   ],
   [
@@ -309,6 +351,18 @@ window.esdocSearchIndex = [
     "src/router/users.js",
     "file/src/router/users.js.html",
     "src/router/users.js",
+    "file"
+  ],
+  [
+    "src/utils/jwt.js",
+    "file/src/utils/jwt.js.html",
+    "src/utils/jwt.js",
+    "file"
+  ],
+  [
+    "src/utils/middleware.js",
+    "file/src/utils/middleware.js.html",
+    "src/utils/middleware.js",
     "file"
   ]
 ]
