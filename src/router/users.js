@@ -48,16 +48,19 @@ router.post('/users/login', async (req, res) => {
         const response = {
           token,
         };
-        res.json(response);
+        res.json({
+          token
+        });
       } else {
-        const response = {
-          error: 'Invalid credentials',
-        };
-        res.json(response);
+        res.json({
+          error: 'Wrong password',
+        });
       }
     })
-    .catch((err) => {
-      res.json(err);
+    .catch(() => {
+      res.json({
+        error: 'There is no user for the given username',
+      });
     });
 });
 
