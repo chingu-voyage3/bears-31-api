@@ -34,7 +34,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/router/meetings.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&quot;express&quot;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&apos;express&apos;);
+const { Group, Meeting } = require(&apos;../models&apos;);
 
 const router = express.Router();
 
@@ -44,11 +45,16 @@ const router = express.Router();
  * @param {object} res - The response object to write to
  * @return {object[]} The array of meetings
  */
-router.get(&quot;/groups/:groupid([0-9]+)/meetings&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.get(&apos;/groups/:groupid([0-9]+)/meetings&apos;, async (req, res) =&gt; {
+  // ToDo: Only group members should be able to access the endpoint
+  const { groupid } = req.params;
+  Group.forge({ id: groupid }).fetch({ withRelated: [&apos;meetings&apos;] })
+    .then((group) =&gt; {
+      res.json(group);
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 /**
@@ -57,11 +63,36 @@ router.get(&quot;/groups/:groupid([0-9]+)/meetings&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object} The just created meeting
  */
-router.post(&quot;/groups/:groupid([0-9]+)/meetings&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.post(&apos;/groups/:groupid([0-9]+)/meetings&apos;, (req, res) =&gt; {
+  // ToDo: Only group admins should be able to access this endpoint
+  // Maybe send an email after the meeting has been created
+  // to notify all members so they can create their own status
+  // instead of doing it API side
+  const { groupid } = req.params;
+  const {
+    title, location, details, due,
+  } = req.body;
+  // ToDo: check if the group exists
+  Group.byID(groupid)
+    .then((group) =&gt; {
+      const data = {
+        title,
+        location,
+        details,
+        due,
+        group_id: group.id,
+      };
+      Meeting.forge(data).save()
+        .then((meeting) =&gt; {
+          res.json(meeting);
+        })
+        .catch((err) =&gt; {
+          res.json(err);
+        });
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 /**
@@ -71,14 +102,18 @@ router.post(&quot;/groups/:groupid([0-9]+)/meetings&quot;, (req, res) =&gt; {
  * @return {object} The meeting object
  */
 router.get(
-  &quot;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&quot;,
-  (req, res) =&gt; {
-    let response = {
-      group_id: req.params.groupid,
-      meeting_id: req.params.meetingid
-    };
-    res.json(response);
-  }
+  &apos;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&apos;,
+  async (req, res) =&gt; {
+    // ToDo: Only group members should be able to access this endpoint
+    const { groupid, meetingid } = req.params;
+    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()
+      .then((meeting) =&gt; {
+        res.json(meeting);
+      })
+      .catch((err) =&gt; {
+        res.json(err);
+      });
+  },
 );
 
 /**
@@ -88,14 +123,31 @@ router.get(
  * @return {object} The updated meeting object
  */
 router.put(
-  &quot;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&quot;,
-  (req, res) =&gt; {
-    let response = {
-      group_id: req.params.groupid,
-      meeting_id: req.params.meetingid
-    };
-    res.json(response);
-  }
+  &apos;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&apos;,
+  async (req, res) =&gt; {
+    // ToDo: Only group admins should be able to access this endpoint
+    const { groupid, meetingid } = req.params;
+    const {
+      title, location, details, due,
+    } = req.body;
+    Meeting.forge({ group_id: groupid, id: meetingid }).fetch()
+      .then((meeting) =&gt; {
+        meeting.save({
+          title: title || meeting.get(&apos;title&apos;),
+          location: location || meeting.get(&apos;location&apos;),
+          details: details || meeting.get(&apos;details&apos;),
+          due: due || meeting.get(&apos;due&apos;),
+        })
+          .then(() =&gt; {
+            res.json({
+              message: &apos;Meeting updated&apos;,
+            });
+          })
+          .catch((err) =&gt; {
+            res.json(err);
+          });
+      });
+  },
 );
 
 /**
@@ -105,14 +157,26 @@ router.put(
  * @return {boolean} Whether the deletion was successful or not
  */
 router.delete(
-  &quot;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&quot;,
-  (req, res) =&gt; {
-    let response = {
-      group_id: req.params.groupid,
-      meeting_id: req.params.meetingid
-    };
-    res.json(response);
-  }
+  &apos;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)&apos;,
+  async (req, res) =&gt; {
+    const { groupid, meetingid } = req.params;
+    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()
+      .then((meeting) =&gt; {
+        meeting.users().detach();
+        meeting.destroy()
+          .then(() =&gt; {
+            res.json({
+              message: &apos;Meeting deleted successfully&apos;,
+            });
+          })
+          .catch((err) =&gt; {
+            res.json(err);
+          });
+      })
+      .catch((err) =&gt; {
+        res.json(err);
+      });
+  },
 );
 
 /**
@@ -121,15 +185,34 @@ router.delete(
  * @param {object} res - The response object to write to
  * @return {object} The updated user status
  */
-router.post(
-  &quot;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/status/:usergid([0-9]+)&quot;,
-  (req, res) =&gt; {
-    let response = {
-      group_id: req.params.groupid
-    };
-    res.json(response);
+/*
+router.put(
+  &apos;/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:userid([0-9]+)&apos;,
+  async (req, res) =&gt; {
+    // ToDo: Only the members themselves should be able to update their status
+    const { meetingid, userid } = req.params;
+    const { status } = req.body;
+    models.UserMeeting.findOne({
+      where: {
+        meeting_id: meetingid,
+        user_id: userid,
+      },
+    })
+      .then((userMeeting) =&gt; {
+        userMeeting.update({ status })
+          .then((updatedUserMeeting) =&gt; {
+            res.json(updatedUserMeeting);
+          })
+          .catch((err) =&gt; {
+            res.json(err);
+          });
+      })
+      .catch((err) =&gt; {
+        res.json(err);
+      });
   }
 );
+*/
 
 module.exports = router;
 </code></pre>

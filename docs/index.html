@@ -37,8 +37,17 @@
 <h2 id="setup">Setup</h2><ol>
 <li>Clone the repository.</li>
 <li>Fetch the dependencies with <code>$ npm install</code> or <code>$ yarn</code>.</li>
-<li>Run <code>$ npm run dev</code> to watch for file changes during development.</li>
+<li>Create a <strong>PostgreSQL</strong> database and update the <a href="knexfile.js">config</a> file.</li>
+<li>Run the migrations with <code>$ npm run migrate:latest</code>.</li>
+<li>Start the server with <code>$ npm run dev</code> to watch for file changes during development.</li>
 </ol>
+<h2 id="testing">Testing</h2><ul>
+<li>Place unit tests in tests/unit and end to end tests in tests/e2e</li>
+<li><code>$ npm test</code> runs all tests</li>
+<li><code>$ npm run e2e-tests</code> runs end to end tests</li>
+<li><code>$ npm run unit-tests</code> runs unit tests</li>
+<li><code>$ npm run tdd</code> runs unit tests in watch mode</li>
+</ul>
 <h2 id="stack">Stack</h2><p><strong>ToDo</strong></p>
 <h2 id="creators">Creators</h2><ul>
 <li><a href="https://github.com/DagmarTimmreck">Dagmar Timmreck</a></li>

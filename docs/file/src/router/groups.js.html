@@ -34,9 +34,28 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/router/groups.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&quot;express&quot;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&apos;express&apos;);
+const { User, Group, Groups } = require(&apos;../models&apos;);
+const { decodeToken } = require(&apos;../utils/jwt&apos;);
+const { checkAuth } = require(&apos;../utils/middleware&apos;);
 
 const router = express.Router();
+
+/**
+ * List all the groups
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object[]} The array of groups
+ */
+router.get(&apos;/groups&apos;, async (req, res) =&gt; {
+  Groups.forge().fetch()
+    .then((groups) =&gt; {
+      res.json(groups);
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
+});
 
 /**
  * Create a new group
@@ -44,11 +63,34 @@ const router = express.Router();
  * @param {object} res - The response object to write to
  * @return {object} The new group object
  */
-router.post(&quot;/groups&quot;, (req, res) =&gt; {
-  let response = {
-    endpoint: &quot;Create a new group&quot;
-  };
-  res.json(response);
+router.post(&apos;/groups&apos;, checkAuth, async (req, res) =&gt; {
+  // Gets the token payload
+  const token = decodeToken(req.headers.authorization);
+
+  // Tries to find an user for the token username
+  // if it finds the user, then it will try to create
+  // the group, if the operation is successful, it will
+  // attach the user to the group, doing so, it will create
+  // a new row in the users_groups table so we can query
+  // for the related groups/users from each model
+  User.byUsername(token.username)
+    .then((user) =&gt; {
+      const { name } = req.body;
+      const data = {
+        name,
+      };
+      Group.forge(data).save()
+        .then((group) =&gt; {
+          user.groups().attach(group);
+          res.json(group);
+        })
+        .catch((err) =&gt; {
+          res.json(err);
+        });
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 /**
@@ -57,12 +99,27 @@ router.post(&quot;/groups&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object} The updated group object
  */
-router.put(&quot;/groups/:groupid([0-9]+)&quot;, (req, res) =&gt; {
-  let response = {
-    endpoint: &quot;Update a specific group&quot;,
-    group_id: req.params.group_id
-  };
-  res.json(response);
+router.put(&apos;/groups/:groupid([0-9]+)&apos;, async (req, res) =&gt; {
+  // ToDo: Only admins of the group should be able to access this endpoint
+  const { groupid } = req.params;
+  const { name } = req.body;
+  Group.forge({ id: groupid }).fetch()
+    .then((group) =&gt; {
+      group.save({
+        name: name || group.get(&apos;name&apos;),
+      })
+        .then(() =&gt; {
+          res.json({
+            message: &apos;Group updated&apos;,
+          });
+        })
+        .catch((err) =&gt; {
+          res.json(err);
+        });
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 /**
@@ -71,11 +128,17 @@ router.put(&quot;/groups/:groupid([0-9]+)&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the group was successfully deleted or not
  */
-router.delete(&quot;/groups&quot;, (req, res) =&gt; {
-  let response = {
-    endpoint: &quot;Create a new group&quot;
-  };
-  res.json(response);
+router.delete(&apos;/groups/:groupid([0-9]+)&apos;, checkAuth, async (req, res) =&gt; {
+  // ToDo: Only admins of the group should be able to access this endpoint
+  const { groupid } = req.params;
+  Group.forge({ id: groupid }).fetch()
+    .then((group) =&gt; {
+      group.users().detach();
+      group.destroy()
+        .then(() =&gt; res.json(&apos;group deleted&apos;))
+        .catch(err =&gt; res.json(err));
+    })
+    .catch(err =&gt; res.json(err));
 });
 
 /**
@@ -84,11 +147,15 @@ router.delete(&quot;/groups&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object[]} The array of members
  */
-router.get(&quot;/groups/:groupid([0-9]+)/members&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.get(&apos;/groups/:groupid([0-9]+)/members&apos;, (req, res) =&gt; {
+  const { groupid } = req.params;
+  Group.forge({ id: groupid }).fetch({ withRelated: [&apos;users&apos;] })
+    .then((group) =&gt; {
+      res.json(group);
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 /**
@@ -97,11 +164,39 @@ router.get(&quot;/groups/:groupid([0-9]+)/members&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object} The new member
  */
-router.post(&quot;/groups/:groupid([0-9]+)/members&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.post(&apos;/groups/:groupid([0-9]+)/members&apos;, async (req, res) =&gt; {
+  // ToDo: Make endpoint only accessible to group admins
+  const { groupid } = req.params;
+  const { email, username } = req.body;
+
+  Group.forge({ id: groupid }).fetch()
+    .then((group) =&gt; {
+      User.byUsername(username)
+        .then((user) =&gt; {
+          group.users().attach(user);
+          res.json({
+            message: &apos;User added to the group&apos;,
+          });
+        })
+        .catch((err) =&gt; {
+          res.json(err);
+        });
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
+  /*
+  let user;
+  // If an email was passed, we prioritize it
+  if (email) {
+    user = await models.User.findOne({ where: { email } });
+    // ToDo: create an invitation to the app if the user is not found
+  } else if (username) {
+    user = await models.User.findOne({ where: { username } });
+  }
+  const userGroup = await models.UserGroup.create({ group_id: id, user_id: user.id });
+  res.json(userGroup);
+  */
 });
 
 /**
@@ -110,13 +205,21 @@ router.post(&quot;/groups/:groupid([0-9]+)/members&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object} The updated member
  */
-router.get(&quot;/groups/:groupid([0-9]+)/members/memberid([0-9]+)&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid,
-    member_id: req.params.memberid
-  };
-  res.json(response);
+/*
+router.put(&apos;/groups/:groupid([0-9]+)/members/memberid([0-9]+)&apos;, async (req, res) =&gt; {
+  // ToDo: Only group admins should be able to access this endpoint
+  const { groupid, memberid } = req.params;
+  const { isAdmin } = req.body;
+  const userGroup = await models.UserGroup.findOne({
+    where: {
+      group_id: groupid,
+      user_id: memberid
+    },
+  });
+  const updatedUserGroup = await userGroup.update({ is_admin: isAdmin });
+  res.json(updatedUserGroup);
 });
+*/
 
 /**
  * Remove a group member
@@ -124,13 +227,25 @@ router.get(&quot;/groups/:groupid([0-9]+)/members/memberid([0-9]+)&quot;, (req, 
  * @param {object} res - The response object to write to
  * @return {boolean} Whether the member was successfully removed or not
  */
-router.get(&quot;/groups/:groupid([0-9]+)/members/memberid([0-9]+)&quot;, (req, res) =&gt; {
-  let response = {
-    endpoint: &quot;Remove a group member&quot;,
-    group_id: req.params.groupid,
-    member_id: req.params.memberid
-  };
-  res.json(response);
+router.delete(&apos;/groups/:groupid([0-9]+)/members/:username&apos;, async (req, res) =&gt; {
+  // ToDo: Only group admins should be able to access this endpoint
+  const { groupid, username } = req.params;
+  Group.forge({ id: groupid }).fetch()
+    .then((group) =&gt; {
+      User.byUsername(username)
+        .then((user) =&gt; {
+          group.users().detach(user);
+          res.json({
+            message: &apos;User removed successfully&apos;,
+          });
+        })
+        .catch((err) =&gt; {
+          res.json(err);
+        });
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
 });
 
 module.exports = router;

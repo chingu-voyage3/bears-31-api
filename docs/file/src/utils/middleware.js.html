@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/index.js | hemsut-api</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/utils/middleware.js | hemsut-api</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -33,35 +33,34 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&apos;express&apos;);
-const bodyParser = require(&apos;body-parser&apos;);
-const morgan = require(&apos;morgan&apos;);
-const cors = require(&apos;cors&apos;);
-const router = require(&apos;./router&apos;);
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils/middleware.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const { decodeToken } = require(&apos;./jwt&apos;);
+const { User } = require(&apos;../models&apos;);
 
-const app = express();
+const checkAuth = (req, res, next) =&gt; {
+  // Check if there&apos;s a token in the request, if not reject
+  const jwt = req.headers.authorization;
+  if (!jwt) {
+    res.send(401, &apos;Invalid or missing authorization token&apos;);
+  }
+  // There&apos;s a token, see if it&apos;s a valid one and retrieve the payload
+  else {
+    const payload = decodeToken(jwt);
+    if (!payload) {
+      res.send(401, &apos;Invalid token&apos;);
+    } else {
+      User.byUsername(payload.username)
+        .then(() =&gt; next())
+        .catch((err) =&gt; {
+          console.log(err);
+        });
+    }
+  }
+};
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(morgan(&apos;dev&apos;));
-
-app.use(cors());
-
-app.get(&apos;/&apos;, (req, res) =&gt; {
-  res.json(&apos;Hello world!&apos;);
-});
-
-app.use(&apos;/api&apos;, router);
-
-const PORT = process.env.PORT || 9000;
-
-app.listen(PORT, () =&gt; {
-  console.log(`There will be dragons on port ${PORT}`);
-});
-
-module.exports = app;
+module.exports = {
+  checkAuth,
+};
 </code></pre>
 
 </div>

@@ -34,7 +34,10 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/router/users.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&quot;express&quot;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const express = require(&apos;express&apos;);
+const bcrypt = require(&apos;bcrypt&apos;);
+const { User, Users } = require(&apos;../models&apos;);
+const jwtUtils = require(&apos;../utils/jwt&apos;);
 
 const router = express.Router();
 
@@ -44,11 +47,23 @@ const router = express.Router();
  * @param {object} res - The response object to write to
  * @return {object} The just created user
  */
-router.post(&quot;/users/register&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.post(&apos;/users/register&apos;, async (req, res) =&gt; {
+  const {
+    username, firstName, lastName, email, password,
+  } = req.body;
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const user = new User();
+  user.set(&apos;username&apos;, username);
+  user.set(&apos;firstName&apos;, firstName);
+  user.set(&apos;lastName&apos;, lastName);
+  user.set(&apos;email&apos;, email);
+  user.set(&apos;password&apos;, hashedPassword);
+  user.save().then((u) =&gt; {
+    res.json(u);
+  }).catch((err) =&gt; {
+    res.json(err);
+  });
 });
 
 /**
@@ -57,11 +72,62 @@ router.post(&quot;/users/register&quot;, (req, res) =&gt; {
  * @param {object} res - The response object to write to
  * @return {object} The JWT
  */
-router.post(&quot;/users/login&quot;, (req, res) =&gt; {
-  let response = {
-    group_id: req.params.groupid
-  };
-  res.json(response);
+router.post(&apos;/users/login&apos;, async (req, res) =&gt; {
+  const { username, password } = req.body;
+  User.byUsername(username)
+    .then((u) =&gt; {
+      if (u.verifyPassword(password)) {
+        const payload = {
+          username: u.get(&apos;username&apos;),
+        };
+        const token = jwtUtils.encodeToken(payload);
+        const response = {
+          token,
+        };
+        res.json(response);
+      } else {
+        const response = {
+          error: &apos;Invalid credentials&apos;,
+        };
+        res.json(response);
+      }
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
+});
+
+/**
+ * Get a list of all the users
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object[]} The list of users
+ */
+router.get(&apos;/users&apos;, async (req, res) =&gt; {
+  Users.forge().fetch()
+    .then((users) =&gt; {
+      res.json(users);
+    })
+    .catch((err) =&gt; {
+      res.json(err);
+    });
+});
+
+/**
+ * Get a single user using its username
+ * @param {object} req - The request object
+ * @param {object} res - The response object to write to
+ * @return {object} The user
+ */
+router.get(&apos;/users/:username&apos;, async (req, res) =&gt; {
+  const { username } = req.params;
+  User.forge({ username }).fetch({ withRelated: [&apos;groups&apos;, &apos;meetings&apos;] })
+    .then((user) =&gt; {
+      res.send(user);
+    })
+    .catch((err) =&gt; {
+      res.send(err);
+    });
 });
 
 module.exports = router;

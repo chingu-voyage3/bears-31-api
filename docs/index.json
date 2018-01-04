@@ -566,8 +566,103 @@
   {
     "__docId__": 48,
     "kind": "file",
+    "name": "src/bookshelf.js",
+    "content": "const dbConfig = require('../knexfile');\n\nconst environment = process.env.NODE_ENV || 'development';\nconsole.log(`Trying to connect to: ${environment}`);\nconst knex = require('knex')(dbConfig[environment]);\nconst bookshelf = require('bookshelf')(knex);\n\nbookshelf.plugin('registry');\n\nmodule.exports = bookshelf;\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/bookshelf.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "variable",
+    "name": "dbConfig",
+    "memberof": "src/bookshelf.js",
+    "static": true,
+    "longname": "src/bookshelf.js~dbConfig",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/bookshelf.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 50,
+    "kind": "variable",
+    "name": "environment",
+    "memberof": "src/bookshelf.js",
+    "static": true,
+    "longname": "src/bookshelf.js~environment",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/bookshelf.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "variable",
+    "name": "knex",
+    "memberof": "src/bookshelf.js",
+    "static": true,
+    "longname": "src/bookshelf.js~knex",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/bookshelf.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "variable",
+    "name": "bookshelf",
+    "memberof": "src/bookshelf.js",
+    "static": true,
+    "longname": "src/bookshelf.js~bookshelf",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/bookshelf.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "file",
     "name": "src/index.js",
-    "content": "const express = require(\"express\");\nconst bodyParser = require(\"body-parser\");\nconst morgan = require(\"morgan\");\nconst router = require(\"./router\");\n\nconst app = express();\n\napp.use(bodyParser.urlencoded({ extended: false }));\napp.use(bodyParser.json());\n\napp.use(morgan(\"dev\"));\n\napp.get(\"/\", (req, res) => {\n  res.json(\"Hello world!\");\n});\n\napp.use(\"/api\", router);\n\nconst PORT = process.env.PORT || 9000;\n\napp.listen(PORT, () => {\n  console.log(`There will be dragons on port ${PORT}`);\n});\n",
+    "content": "const express = require('express');\nconst bodyParser = require('body-parser');\nconst morgan = require('morgan');\nconst cors = require('cors');\nconst router = require('./router');\n\nconst app = express();\n\napp.use(bodyParser.urlencoded({ extended: false }));\napp.use(bodyParser.json());\n\napp.use(morgan('dev'));\n\napp.use(cors());\n\napp.get('/', (req, res) => {\n  res.json('Hello world!');\n});\n\napp.use('/api', router);\n\nconst PORT = process.env.PORT || 9000;\n\napp.listen(PORT, () => {\n  console.log(`There will be dragons on port ${PORT}`);\n});\n\nmodule.exports = app;\n",
     "static": true,
     "longname": "/home/andres/Code/Node/hemsut-api/src/index.js",
     "access": "public",
@@ -575,7 +670,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 49,
+    "__docId__": 54,
     "kind": "variable",
     "name": "express",
     "memberof": "src/index.js",
@@ -596,7 +691,7 @@
     "ignore": true
   },
   {
-    "__docId__": 50,
+    "__docId__": 55,
     "kind": "variable",
     "name": "bodyParser",
     "memberof": "src/index.js",
@@ -617,7 +712,7 @@
     "ignore": true
   },
   {
-    "__docId__": 51,
+    "__docId__": 56,
     "kind": "variable",
     "name": "morgan",
     "memberof": "src/index.js",
@@ -638,12 +733,12 @@
     "ignore": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 57,
     "kind": "variable",
-    "name": "router",
+    "name": "cors",
     "memberof": "src/index.js",
     "static": true,
-    "longname": "src/index.js~router",
+    "longname": "src/index.js~cors",
     "access": "public",
     "export": false,
     "importPath": "hemsut-api/src/index.js",
@@ -659,7 +754,28 @@
     "ignore": true
   },
   {
-    "__docId__": 53,
+    "__docId__": 58,
+    "kind": "variable",
+    "name": "router",
+    "memberof": "src/index.js",
+    "static": true,
+    "longname": "src/index.js~router",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 59,
     "kind": "variable",
     "name": "app",
     "memberof": "src/index.js",
@@ -670,7 +786,7 @@
     "importPath": "hemsut-api/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 6,
+    "lineNumber": 7,
     "undocument": true,
     "type": {
       "types": [
@@ -680,7 +796,7 @@
     "ignore": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 60,
     "kind": "variable",
     "name": "PORT",
     "memberof": "src/index.js",
@@ -691,7 +807,7 @@
     "importPath": "hemsut-api/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 22,
     "undocument": true,
     "type": {
       "types": [
@@ -701,10 +817,517 @@
     "ignore": true
   },
   {
-    "__docId__": 55,
+    "__docId__": 61,
+    "kind": "file",
+    "name": "src/models/group.js",
+    "content": "const bookshelf = require('../bookshelf');\nconst { Invitation } = require('./invitation');\nconst { Meeting } = require('./meeting');\n\nconst Group = bookshelf.Model.extend({\n  tableName: 'groups',\n  hasTimestamps: true,\n\n  users() {\n    return this.belongsToMany('User', 'users_groups');\n  },\n\n  invitations() {\n    return this.hasMany(Invitation);\n  },\n\n  meetings() {\n    return this.hasMany(Meeting);\n  },\n}, {\n  create(data, options) {\n    return this.forge(data).save(null, options);\n  },\n\n  byID(id) {\n    return this.forge().query({ where: { id } }).fetch();\n  },\n});\n\nconst Groups = bookshelf.Collection.extend({\n  model: Group,\n});\n\nmodule.exports.Group = bookshelf.model('Group', Group);\nmodule.exports.Groups = bookshelf.model('Groups', Groups);\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/group.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 62,
+    "kind": "variable",
+    "name": "bookshelf",
+    "memberof": "src/models/group.js",
+    "static": true,
+    "longname": "src/models/group.js~bookshelf",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/group.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "variable",
+    "name": "Invitation",
+    "memberof": "src/models/group.js",
+    "static": true,
+    "longname": "src/models/group.js~Invitation",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/group.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "variable",
+    "name": "Meeting",
+    "memberof": "src/models/group.js",
+    "static": true,
+    "longname": "src/models/group.js~Meeting",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/group.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "variable",
+    "name": "Group",
+    "memberof": "src/models/group.js",
+    "static": true,
+    "longname": "src/models/group.js~Group",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/group.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "variable",
+    "name": "Groups",
+    "memberof": "src/models/group.js",
+    "static": true,
+    "longname": "src/models/group.js~Groups",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/group.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "file",
+    "name": "src/models/index.js",
+    "content": "const { Group, Groups } = require('./group');\nconst { Invitation, Invitations } = require('./invitation');\nconst { Meeting, Meetings } = require('./meeting');\nconst { User, Users } = require('./user');\n\nmodule.exports = {\n  Group,\n  Groups,\n  Invitation,\n  Invitations,\n  Meeting,\n  Meetings,\n  User,\n  Users,\n};\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 68,
+    "kind": "variable",
+    "name": "Group",
+    "memberof": "src/models/index.js",
+    "static": true,
+    "longname": "src/models/index.js~Group",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "variable",
+    "name": "Invitation",
+    "memberof": "src/models/index.js",
+    "static": true,
+    "longname": "src/models/index.js~Invitation",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "variable",
+    "name": "Meeting",
+    "memberof": "src/models/index.js",
+    "static": true,
+    "longname": "src/models/index.js~Meeting",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "variable",
+    "name": "User",
+    "memberof": "src/models/index.js",
+    "static": true,
+    "longname": "src/models/index.js~User",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "file",
+    "name": "src/models/invitation.js",
+    "content": "const bookshelf = require('../bookshelf');\nconst { Group } = require('./group');\n\nconst Invitation = bookshelf.Model.extend({\n  tableName: 'invitations',\n  hasTimestamps: true,\n\n  group() {\n    return this.belongsTo(Group);\n  },\n}, {\n  byEmail(email) {\n    return this.forge().query({ where: { email } }).fetch();\n  },\n});\n\nconst Invitations = bookshelf.Collection.extend({\n  model: Invitation,\n});\n\nmodule.exports.Invitation = bookshelf.model('Invitation', Invitation);\nmodule.exports.Invitations = bookshelf.model('Invitations', Invitations);\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/invitation.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 73,
+    "kind": "variable",
+    "name": "bookshelf",
+    "memberof": "src/models/invitation.js",
+    "static": true,
+    "longname": "src/models/invitation.js~bookshelf",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/invitation.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "variable",
+    "name": "Group",
+    "memberof": "src/models/invitation.js",
+    "static": true,
+    "longname": "src/models/invitation.js~Group",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/invitation.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "variable",
+    "name": "Invitation",
+    "memberof": "src/models/invitation.js",
+    "static": true,
+    "longname": "src/models/invitation.js~Invitation",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/invitation.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "variable",
+    "name": "Invitations",
+    "memberof": "src/models/invitation.js",
+    "static": true,
+    "longname": "src/models/invitation.js~Invitations",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/invitation.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "file",
+    "name": "src/models/meeting.js",
+    "content": "const bookshelf = require('../bookshelf');\nconst { Group } = require('./group');\n\nconst Meeting = bookshelf.Model.extend({\n  tableName: 'meetings',\n  hasTimestamps: true,\n\n  group() {\n    return this.belongsTo(Group);\n  },\n\n  users() {\n    return this.belongsToMany('User', 'users_meetings');\n  },\n});\n\nconst Meetings = bookshelf.Collection.extend({\n  model: Meeting,\n});\n\nmodule.exports.Meeting = bookshelf.model('Meeting', Meeting);\nmodule.exports.Meetings = bookshelf.model('Meetings', Meetings);\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/meeting.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 78,
+    "kind": "variable",
+    "name": "bookshelf",
+    "memberof": "src/models/meeting.js",
+    "static": true,
+    "longname": "src/models/meeting.js~bookshelf",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/meeting.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "variable",
+    "name": "Group",
+    "memberof": "src/models/meeting.js",
+    "static": true,
+    "longname": "src/models/meeting.js~Group",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/meeting.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "variable",
+    "name": "Meeting",
+    "memberof": "src/models/meeting.js",
+    "static": true,
+    "longname": "src/models/meeting.js~Meeting",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/meeting.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "variable",
+    "name": "Meetings",
+    "memberof": "src/models/meeting.js",
+    "static": true,
+    "longname": "src/models/meeting.js~Meetings",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/meeting.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "file",
+    "name": "src/models/user.js",
+    "content": "const bcrypt = require('bcrypt');\nconst bookshelf = require('../bookshelf');\n\nconst User = bookshelf.Model.extend({\n  tableName: 'users',\n  hasTimestamps: true,\n\n  groups() {\n    return this.belongsToMany('Group', 'users_groups');\n  },\n\n  meetings() {\n    return this.belongsToMany('Meeting', 'users_meetings');\n  },\n\n  verifyPassword(password) {\n    return bcrypt.compareSync(password, this.get('password'));\n  },\n}, {\n  create(data, options) {\n    return this.forge(data).save(null, options);\n  },\n\n  byUsername(username) {\n    return this.forge().query({ where: { username } }).fetch();\n  },\n\n  byEmail(email) {\n    return this.forge().query({ where: { email } }).fetch();\n  },\n\n  findAll(filter, options) {\n    return this.forge().where(filter).fetchAll(options);\n  },\n});\n\nconst Users = bookshelf.Collection.extend({\n  model: User,\n});\n\nmodule.exports.User = bookshelf.model('User', User);\nmodule.exports.Users = bookshelf.model('Users', Users);\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/user.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 83,
+    "kind": "variable",
+    "name": "bcrypt",
+    "memberof": "src/models/user.js",
+    "static": true,
+    "longname": "src/models/user.js~bcrypt",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "variable",
+    "name": "bookshelf",
+    "memberof": "src/models/user.js",
+    "static": true,
+    "longname": "src/models/user.js~bookshelf",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "variable",
+    "name": "User",
+    "memberof": "src/models/user.js",
+    "static": true,
+    "longname": "src/models/user.js~User",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "variable",
+    "name": "Users",
+    "memberof": "src/models/user.js",
+    "static": true,
+    "longname": "src/models/user.js~Users",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "file",
+    "name": "src/models/user_meeting.js",
+    "content": "'use strict';\nmodule.exports = (sequelize, DataTypes) => {\n  const UserMeeting = sequelize.define(\n    'UserMeeting',\n    {\n      id: {\n        type: DataTypes.INTEGER,\n        primaryKey: true,\n        autoIncrement: true,\n        allowNull: false,\n      },\n\n      meeting_id: {\n        type: DataTypes.INTEGER,\n        references: {\n          model: 'meetings',\n          key: 'id',\n        },\n        allowNull: false,\n      },\n\n      user_id: {\n        type: DataTypes.INTEGER,\n        references: {\n          model: 'users',\n          key: 'id',\n        },\n        allowNull: false,\n      },\n\n      status: {\n        type: DataTypes.ENUM,\n        values: ['Undisclosed', 'Going', 'Maybe', 'Not Going'],\n        defaultValue: 'Undisclosed',\n        allowNull: false,\n      },\n    },\n    {\n      underscored: true,\n      classMethods: {\n        associate(models) {\n          UserMeeting.belongsTo(models.User);\n          UserMeeting.belongsTo(models.Meeting);\n        },\n      },\n    },\n  );\n  return UserMeeting;\n};\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/models/user_meeting.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 88,
     "kind": "file",
     "name": "src/router/groups.js",
-    "content": "const express = require(\"express\");\n\nconst router = express.Router();\n\n/**\n * Create a new group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The new group object\n */\nrouter.post(\"/groups\", (req, res) => {\n  let response = {\n    endpoint: \"Create a new group\"\n  };\n  res.json(response);\n});\n\n/**\n * Update a specific group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated group object\n */\nrouter.put(\"/groups/:groupid([0-9]+)\", (req, res) => {\n  let response = {\n    endpoint: \"Update a specific group\",\n    group_id: req.params.group_id\n  };\n  res.json(response);\n});\n\n/**\n * Delete a specific group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the group was successfully deleted or not\n */\nrouter.delete(\"/groups\", (req, res) => {\n  let response = {\n    endpoint: \"Create a new group\"\n  };\n  res.json(response);\n});\n\n/**\n * List all the group members\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The array of members\n */\nrouter.get(\"/groups/:groupid([0-9]+)/members\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\n/**\n * Add a group member\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The new member\n */\nrouter.post(\"/groups/:groupid([0-9]+)/members\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\n/**\n * Update a group member (change its role)\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated member\n */\nrouter.get(\"/groups/:groupid([0-9]+)/members/memberid([0-9]+)\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid,\n    member_id: req.params.memberid\n  };\n  res.json(response);\n});\n\n/**\n * Remove a group member\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the member was successfully removed or not\n */\nrouter.get(\"/groups/:groupid([0-9]+)/members/memberid([0-9]+)\", (req, res) => {\n  let response = {\n    endpoint: \"Remove a group member\",\n    group_id: req.params.groupid,\n    member_id: req.params.memberid\n  };\n  res.json(response);\n});\n\nmodule.exports = router;\n",
+    "content": "const express = require('express');\nconst { User, Group, Groups } = require('../models');\nconst { decodeToken } = require('../utils/jwt');\nconst { checkAuth } = require('../utils/middleware');\n\nconst router = express.Router();\n\n/**\n * List all the groups\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The array of groups\n */\nrouter.get('/groups', async (req, res) => {\n  Groups.forge().fetch()\n    .then((groups) => {\n      res.json(groups);\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Create a new group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The new group object\n */\nrouter.post('/groups', checkAuth, async (req, res) => {\n  // Gets the token payload\n  const token = decodeToken(req.headers.authorization);\n\n  // Tries to find an user for the token username\n  // if it finds the user, then it will try to create\n  // the group, if the operation is successful, it will\n  // attach the user to the group, doing so, it will create\n  // a new row in the users_groups table so we can query\n  // for the related groups/users from each model\n  User.byUsername(token.username)\n    .then((user) => {\n      const { name } = req.body;\n      const data = {\n        name,\n      };\n      Group.forge(data).save()\n        .then((group) => {\n          user.groups().attach(group);\n          res.json(group);\n        })\n        .catch((err) => {\n          res.json(err);\n        });\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Update a specific group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated group object\n */\nrouter.put('/groups/:groupid([0-9]+)', async (req, res) => {\n  // ToDo: Only admins of the group should be able to access this endpoint\n  const { groupid } = req.params;\n  const { name } = req.body;\n  Group.forge({ id: groupid }).fetch()\n    .then((group) => {\n      group.save({\n        name: name || group.get('name'),\n      })\n        .then(() => {\n          res.json({\n            message: 'Group updated',\n          });\n        })\n        .catch((err) => {\n          res.json(err);\n        });\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Delete a specific group\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the group was successfully deleted or not\n */\nrouter.delete('/groups/:groupid([0-9]+)', checkAuth, async (req, res) => {\n  // ToDo: Only admins of the group should be able to access this endpoint\n  const { groupid } = req.params;\n  Group.forge({ id: groupid }).fetch()\n    .then((group) => {\n      group.users().detach();\n      group.destroy()\n        .then(() => res.json('group deleted'))\n        .catch(err => res.json(err));\n    })\n    .catch(err => res.json(err));\n});\n\n/**\n * List all the group members\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The array of members\n */\nrouter.get('/groups/:groupid([0-9]+)/members', (req, res) => {\n  const { groupid } = req.params;\n  Group.forge({ id: groupid }).fetch({ withRelated: ['users'] })\n    .then((group) => {\n      res.json(group);\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Add a group member\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The new member\n */\nrouter.post('/groups/:groupid([0-9]+)/members', async (req, res) => {\n  // ToDo: Make endpoint only accessible to group admins\n  const { groupid } = req.params;\n  const { email, username } = req.body;\n\n  Group.forge({ id: groupid }).fetch()\n    .then((group) => {\n      User.byUsername(username)\n        .then((user) => {\n          group.users().attach(user);\n          res.json({\n            message: 'User added to the group',\n          });\n        })\n        .catch((err) => {\n          res.json(err);\n        });\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n  /*\n  let user;\n  // If an email was passed, we prioritize it\n  if (email) {\n    user = await models.User.findOne({ where: { email } });\n    // ToDo: create an invitation to the app if the user is not found\n  } else if (username) {\n    user = await models.User.findOne({ where: { username } });\n  }\n  const userGroup = await models.UserGroup.create({ group_id: id, user_id: user.id });\n  res.json(userGroup);\n  */\n});\n\n/**\n * Update a group member (change its role)\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated member\n */\n/*\nrouter.put('/groups/:groupid([0-9]+)/members/memberid([0-9]+)', async (req, res) => {\n  // ToDo: Only group admins should be able to access this endpoint\n  const { groupid, memberid } = req.params;\n  const { isAdmin } = req.body;\n  const userGroup = await models.UserGroup.findOne({\n    where: {\n      group_id: groupid,\n      user_id: memberid\n    },\n  });\n  const updatedUserGroup = await userGroup.update({ is_admin: isAdmin });\n  res.json(updatedUserGroup);\n});\n*/\n\n/**\n * Remove a group member\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the member was successfully removed or not\n */\nrouter.delete('/groups/:groupid([0-9]+)/members/:username', async (req, res) => {\n  // ToDo: Only group admins should be able to access this endpoint\n  const { groupid, username } = req.params;\n  Group.forge({ id: groupid }).fetch()\n    .then((group) => {\n      User.byUsername(username)\n        .then((user) => {\n          group.users().detach(user);\n          res.json({\n            message: 'User removed successfully',\n          });\n        })\n        .catch((err) => {\n          res.json(err);\n        });\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\nmodule.exports = router;\n",
     "static": true,
     "longname": "/home/andres/Code/Node/hemsut-api/src/router/groups.js",
     "access": "public",
@@ -712,7 +1335,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 56,
+    "__docId__": 89,
     "kind": "variable",
     "name": "express",
     "memberof": "src/router/groups.js",
@@ -733,12 +1356,33 @@
     "ignore": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 90,
     "kind": "variable",
-    "name": "router",
+    "name": "User",
     "memberof": "src/router/groups.js",
     "static": true,
-    "longname": "src/router/groups.js~router",
+    "longname": "src/router/groups.js~User",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/groups.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "variable",
+    "name": "decodeToken",
+    "memberof": "src/router/groups.js",
+    "static": true,
+    "longname": "src/router/groups.js~decodeToken",
     "access": "public",
     "export": false,
     "importPath": "hemsut-api/src/router/groups.js",
@@ -754,10 +1398,52 @@
     "ignore": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 92,
+    "kind": "variable",
+    "name": "checkAuth",
+    "memberof": "src/router/groups.js",
+    "static": true,
+    "longname": "src/router/groups.js~checkAuth",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/groups.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "variable",
+    "name": "router",
+    "memberof": "src/router/groups.js",
+    "static": true,
+    "longname": "src/router/groups.js~router",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/groups.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 94,
     "kind": "file",
     "name": "src/router/index.js",
-    "content": "const express = require(\"express\");\nconst groupsRouter = require(\"./groups\");\nconst meetingsRouter = require(\"./meetings\");\nconst usersRouter = require(\"./users\");\n\nconst router = express.Router();\n\nrouter.use(groupsRouter);\nrouter.use(meetingsRouter);\nrouter.use(usersRouter);\n\nmodule.exports = router;\n",
+    "content": "const express = require('express');\nconst groupsRouter = require('./groups');\nconst meetingsRouter = require('./meetings');\nconst usersRouter = require('./users');\n\nconst router = express.Router();\n\nrouter.use(groupsRouter);\nrouter.use(meetingsRouter);\nrouter.use(usersRouter);\n\nmodule.exports = router;\n",
     "static": true,
     "longname": "/home/andres/Code/Node/hemsut-api/src/router/index.js",
     "access": "public",
@@ -765,7 +1451,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 59,
+    "__docId__": 95,
     "kind": "variable",
     "name": "express",
     "memberof": "src/router/index.js",
@@ -786,7 +1472,7 @@
     "ignore": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 96,
     "kind": "variable",
     "name": "groupsRouter",
     "memberof": "src/router/index.js",
@@ -807,7 +1493,7 @@
     "ignore": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 97,
     "kind": "variable",
     "name": "meetingsRouter",
     "memberof": "src/router/index.js",
@@ -828,7 +1514,7 @@
     "ignore": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 98,
     "kind": "variable",
     "name": "usersRouter",
     "memberof": "src/router/index.js",
@@ -849,7 +1535,7 @@
     "ignore": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 99,
     "kind": "variable",
     "name": "router",
     "memberof": "src/router/index.js",
@@ -870,10 +1556,10 @@
     "ignore": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 100,
     "kind": "file",
     "name": "src/router/meetings.js",
-    "content": "const express = require(\"express\");\n\nconst router = express.Router();\n\n/**\n * List all the group meetings\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The array of meetings\n */\nrouter.get(\"/groups/:groupid([0-9]+)/meetings\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\n/**\n * Create a new group meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The just created meeting\n */\nrouter.post(\"/groups/:groupid([0-9]+)/meetings\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\n/**\n * Details for an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The meeting object\n */\nrouter.get(\n  \"/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)\",\n  (req, res) => {\n    let response = {\n      group_id: req.params.groupid,\n      meeting_id: req.params.meetingid\n    };\n    res.json(response);\n  }\n);\n\n/**\n * Update an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated meeting object\n */\nrouter.put(\n  \"/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)\",\n  (req, res) => {\n    let response = {\n      group_id: req.params.groupid,\n      meeting_id: req.params.meetingid\n    };\n    res.json(response);\n  }\n);\n\n/**\n * Delete an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the deletion was successful or not\n */\nrouter.delete(\n  \"/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)\",\n  (req, res) => {\n    let response = {\n      group_id: req.params.groupid,\n      meeting_id: req.params.meetingid\n    };\n    res.json(response);\n  }\n);\n\n/**\n * Update a group member status on a meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated user status\n */\nrouter.post(\n  \"/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/status/:usergid([0-9]+)\",\n  (req, res) => {\n    let response = {\n      group_id: req.params.groupid\n    };\n    res.json(response);\n  }\n);\n\nmodule.exports = router;\n",
+    "content": "const express = require('express');\nconst { Group, Meeting } = require('../models');\n\nconst router = express.Router();\n\n/**\n * List all the group meetings\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The array of meetings\n */\nrouter.get('/groups/:groupid([0-9]+)/meetings', async (req, res) => {\n  // ToDo: Only group members should be able to access the endpoint\n  const { groupid } = req.params;\n  Group.forge({ id: groupid }).fetch({ withRelated: ['meetings'] })\n    .then((group) => {\n      res.json(group);\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Create a new group meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The just created meeting\n */\nrouter.post('/groups/:groupid([0-9]+)/meetings', (req, res) => {\n  // ToDo: Only group admins should be able to access this endpoint\n  // Maybe send an email after the meeting has been created\n  // to notify all members so they can create their own status\n  // instead of doing it API side\n  const { groupid } = req.params;\n  const {\n    title, location, details, due,\n  } = req.body;\n  // ToDo: check if the group exists\n  Group.byID(groupid)\n    .then((group) => {\n      const data = {\n        title,\n        location,\n        details,\n        due,\n        group_id: group.id,\n      };\n      Meeting.forge(data).save()\n        .then((meeting) => {\n          res.json(meeting);\n        })\n        .catch((err) => {\n          res.json(err);\n        });\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Details for an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The meeting object\n */\nrouter.get(\n  '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',\n  async (req, res) => {\n    // ToDo: Only group members should be able to access this endpoint\n    const { groupid, meetingid } = req.params;\n    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()\n      .then((meeting) => {\n        res.json(meeting);\n      })\n      .catch((err) => {\n        res.json(err);\n      });\n  },\n);\n\n/**\n * Update an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated meeting object\n */\nrouter.put(\n  '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',\n  async (req, res) => {\n    // ToDo: Only group admins should be able to access this endpoint\n    const { groupid, meetingid } = req.params;\n    const {\n      title, location, details, due,\n    } = req.body;\n    Meeting.forge({ group_id: groupid, id: meetingid }).fetch()\n      .then((meeting) => {\n        meeting.save({\n          title: title || meeting.get('title'),\n          location: location || meeting.get('location'),\n          details: details || meeting.get('details'),\n          due: due || meeting.get('due'),\n        })\n          .then(() => {\n            res.json({\n              message: 'Meeting updated',\n            });\n          })\n          .catch((err) => {\n            res.json(err);\n          });\n      });\n  },\n);\n\n/**\n * Delete an specific meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {boolean} Whether the deletion was successful or not\n */\nrouter.delete(\n  '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)',\n  async (req, res) => {\n    const { groupid, meetingid } = req.params;\n    Meeting.forge({ id: meetingid, group_id: groupid }).fetch()\n      .then((meeting) => {\n        meeting.users().detach();\n        meeting.destroy()\n          .then(() => {\n            res.json({\n              message: 'Meeting deleted successfully',\n            });\n          })\n          .catch((err) => {\n            res.json(err);\n          });\n      })\n      .catch((err) => {\n        res.json(err);\n      });\n  },\n);\n\n/**\n * Update a group member status on a meeting\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The updated user status\n */\n/*\nrouter.put(\n  '/groups/:groupid([0-9]+)/meetings/:meetingid([0-9]+)/users/:userid([0-9]+)',\n  async (req, res) => {\n    // ToDo: Only the members themselves should be able to update their status\n    const { meetingid, userid } = req.params;\n    const { status } = req.body;\n    models.UserMeeting.findOne({\n      where: {\n        meeting_id: meetingid,\n        user_id: userid,\n      },\n    })\n      .then((userMeeting) => {\n        userMeeting.update({ status })\n          .then((updatedUserMeeting) => {\n            res.json(updatedUserMeeting);\n          })\n          .catch((err) => {\n            res.json(err);\n          });\n      })\n      .catch((err) => {\n        res.json(err);\n      });\n  }\n);\n*/\n\nmodule.exports = router;\n",
     "static": true,
     "longname": "/home/andres/Code/Node/hemsut-api/src/router/meetings.js",
     "access": "public",
@@ -881,7 +1567,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 65,
+    "__docId__": 101,
     "kind": "variable",
     "name": "express",
     "memberof": "src/router/meetings.js",
@@ -902,7 +1588,28 @@
     "ignore": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 102,
+    "kind": "variable",
+    "name": "Group",
+    "memberof": "src/router/meetings.js",
+    "static": true,
+    "longname": "src/router/meetings.js~Group",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/meetings.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 103,
     "kind": "variable",
     "name": "router",
     "memberof": "src/router/meetings.js",
@@ -913,7 +1620,7 @@
     "importPath": "hemsut-api/src/router/meetings.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 4,
     "undocument": true,
     "type": {
       "types": [
@@ -923,10 +1630,10 @@
     "ignore": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 104,
     "kind": "file",
     "name": "src/router/users.js",
-    "content": "const express = require(\"express\");\n\nconst router = express.Router();\n\n/**\n * Register a new user\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The just created user\n */\nrouter.post(\"/users/register\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\n/**\n * Get a JWT to login\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The JWT\n */\nrouter.post(\"/users/login\", (req, res) => {\n  let response = {\n    group_id: req.params.groupid\n  };\n  res.json(response);\n});\n\nmodule.exports = router;\n",
+    "content": "const express = require('express');\nconst bcrypt = require('bcrypt');\nconst { User, Users } = require('../models');\nconst jwtUtils = require('../utils/jwt');\n\nconst router = express.Router();\n\n/**\n * Register a new user\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The just created user\n */\nrouter.post('/users/register', async (req, res) => {\n  const {\n    username, firstName, lastName, email, password,\n  } = req.body;\n\n  const hashedPassword = bcrypt.hashSync(password, 10);\n  const user = new User();\n  user.set('username', username);\n  user.set('firstName', firstName);\n  user.set('lastName', lastName);\n  user.set('email', email);\n  user.set('password', hashedPassword);\n  user.save().then((u) => {\n    res.json(u);\n  }).catch((err) => {\n    res.json(err);\n  });\n});\n\n/**\n * Get a JWT to login\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The JWT\n */\nrouter.post('/users/login', async (req, res) => {\n  const { username, password } = req.body;\n  User.byUsername(username)\n    .then((u) => {\n      if (u.verifyPassword(password)) {\n        const payload = {\n          username: u.get('username'),\n        };\n        const token = jwtUtils.encodeToken(payload);\n        const response = {\n          token,\n        };\n        res.json(response);\n      } else {\n        const response = {\n          error: 'Invalid credentials',\n        };\n        res.json(response);\n      }\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Get a list of all the users\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object[]} The list of users\n */\nrouter.get('/users', async (req, res) => {\n  Users.forge().fetch()\n    .then((users) => {\n      res.json(users);\n    })\n    .catch((err) => {\n      res.json(err);\n    });\n});\n\n/**\n * Get a single user using its username\n * @param {object} req - The request object\n * @param {object} res - The response object to write to\n * @return {object} The user\n */\nrouter.get('/users/:username', async (req, res) => {\n  const { username } = req.params;\n  User.forge({ username }).fetch({ withRelated: ['groups', 'meetings'] })\n    .then((user) => {\n      res.send(user);\n    })\n    .catch((err) => {\n      res.send(err);\n    });\n});\n\nmodule.exports = router;\n",
     "static": true,
     "longname": "/home/andres/Code/Node/hemsut-api/src/router/users.js",
     "access": "public",
@@ -934,7 +1641,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 68,
+    "__docId__": 105,
     "kind": "variable",
     "name": "express",
     "memberof": "src/router/users.js",
@@ -955,12 +1662,33 @@
     "ignore": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 106,
     "kind": "variable",
-    "name": "router",
+    "name": "bcrypt",
     "memberof": "src/router/users.js",
     "static": true,
-    "longname": "src/router/users.js~router",
+    "longname": "src/router/users.js~bcrypt",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/users.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "variable",
+    "name": "User",
+    "memberof": "src/router/users.js",
+    "static": true,
+    "longname": "src/router/users.js~User",
     "access": "public",
     "export": false,
     "importPath": "hemsut-api/src/router/users.js",
@@ -976,8 +1704,248 @@
     "ignore": true
   },
   {
+    "__docId__": 108,
+    "kind": "variable",
+    "name": "jwtUtils",
+    "memberof": "src/router/users.js",
+    "static": true,
+    "longname": "src/router/users.js~jwtUtils",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/users.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 109,
+    "kind": "variable",
+    "name": "router",
+    "memberof": "src/router/users.js",
+    "static": true,
+    "longname": "src/router/users.js~router",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/router/users.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 110,
+    "kind": "file",
+    "name": "src/utils/jwt.js",
+    "content": "const jwt = require('jsonwebtoken');\n\n/**\n * @param {object} payload - The object to encode\n * @return {object} The encoded JWT\n */\nfunction encodeToken(payload) {\n  // ToDo read secret from environment variable or use\n  // a certificate\n  return jwt.sign(payload, 'secret', {\n    expiresIn: '7d',\n  });\n}\n\n/**\n * @param {object} token - The JWT token to decode\n * @return {object} The decoded token (if it was verified)\n * or an error\n */\nfunction decodeToken(token) {\n  try {\n    return jwt.verify(token, 'secret');\n  } catch (err) {\n    throw new Error('Token is invalid');\n  }\n}\n\nmodule.exports = {\n  encodeToken,\n  decodeToken,\n};\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/utils/jwt.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 111,
+    "kind": "variable",
+    "name": "jwt",
+    "memberof": "src/utils/jwt.js",
+    "static": true,
+    "longname": "src/utils/jwt.js~jwt",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/jwt.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "function",
+    "name": "encodeToken",
+    "memberof": "src/utils/jwt.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/jwt.js~encodeToken",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/jwt.js",
+    "importStyle": null,
+    "description": "",
+    "lineNumber": 7,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "payload",
+        "description": "The object to encode"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "object"
+      ],
+      "spread": false,
+      "description": "The encoded JWT"
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 113,
+    "kind": "function",
+    "name": "decodeToken",
+    "memberof": "src/utils/jwt.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/jwt.js~decodeToken",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/jwt.js",
+    "importStyle": null,
+    "description": "",
+    "lineNumber": 20,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "token",
+        "description": "The JWT token to decode"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "object"
+      ],
+      "spread": false,
+      "description": "The decoded token (if it was verified)\nor an error"
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 114,
+    "kind": "file",
+    "name": "src/utils/middleware.js",
+    "content": "const { decodeToken } = require('./jwt');\nconst { User } = require('../models');\n\nconst checkAuth = (req, res, next) => {\n  // Check if there's a token in the request, if not reject\n  const jwt = req.headers.authorization;\n  if (!jwt) {\n    res.send(401, 'Invalid or missing authorization token');\n  }\n  // There's a token, see if it's a valid one and retrieve the payload\n  else {\n    const payload = decodeToken(jwt);\n    if (!payload) {\n      res.send(401, 'Invalid token');\n    } else {\n      User.byUsername(payload.username)\n        .then(() => next())\n        .catch((err) => {\n          console.log(err);\n        });\n    }\n  }\n};\n\nmodule.exports = {\n  checkAuth,\n};\n",
+    "static": true,
+    "longname": "/home/andres/Code/Node/hemsut-api/src/utils/middleware.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 115,
+    "kind": "variable",
+    "name": "decodeToken",
+    "memberof": "src/utils/middleware.js",
+    "static": true,
+    "longname": "src/utils/middleware.js~decodeToken",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/middleware.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 116,
+    "kind": "variable",
+    "name": "User",
+    "memberof": "src/utils/middleware.js",
+    "static": true,
+    "longname": "src/utils/middleware.js~User",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/middleware.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 117,
+    "kind": "function",
+    "name": "checkAuth",
+    "memberof": "src/utils/middleware.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/middleware.js~checkAuth",
+    "access": "public",
+    "export": false,
+    "importPath": "hemsut-api/src/utils/middleware.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "next",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
     "kind": "index",
-    "content": "# Hemsut API\n\n**ToDo**: Elevator pitch.\n\n## Setup\n\n1. Clone the repository.\n2. Fetch the dependencies with `$ npm install` or `$ yarn`.\n3. Run `$ npm run dev` to watch for file changes during development.\n\n## Stack\n\n**ToDo**\n\n## Creators\n\n* [Dagmar Timmreck](https://github.com/DagmarTimmreck)\n* [Mario Krajacic](https://github.com/thinktwice13)\n* [Yuka Masuda](https://github.com/ykmsd)\n* [Andrés Pérez](https://github.com/Oxyrus)\n",
+    "content": "# Hemsut API\n\n**ToDo**: Elevator pitch.\n\n## Setup\n\n1. Clone the repository.\n2. Fetch the dependencies with `$ npm install` or `$ yarn`.\n3. Create a **PostgreSQL** database and update the [config](knexfile.js) file.\n4. Run the migrations with `$ npm run migrate:latest`.\n3. Start the server with `$ npm run dev` to watch for file changes during development.\n\n## Testing\n\n* Place unit tests in tests/unit and end to end tests in tests/e2e\n* `$ npm test` runs all tests\n* `$ npm run e2e-tests` runs end to end tests\n* `$ npm run unit-tests` runs unit tests\n* `$ npm run tdd` runs unit tests in watch mode\n\n## Stack\n\n**ToDo**\n\n## Creators\n\n* [Dagmar Timmreck](https://github.com/DagmarTimmreck)\n* [Mario Krajacic](https://github.com/thinktwice13)\n* [Yuka Masuda](https://github.com/ykmsd)\n* [Andrés Pérez](https://github.com/Oxyrus)\n",
     "longname": "/home/andres/Code/Node/hemsut-api/README.md",
     "name": "./README.md",
     "static": true,
@@ -985,7 +1953,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"hemsut-api\",\n  \"version\": \"1.0.0\",\n  \"description\": \"The Hemsut API\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node src/index.js\",\n    \"dev\": \"nodemon src/index.js\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 0\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/chingu-voyage3/bears-31-api.git\"\n  },\n  \"keywords\": [\"hemsut\", \"chingu\", \"express\", \"rest\"],\n  \"author\": \"bears-31\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/chingu-voyage3/bears-31-api/issues\"\n  },\n  \"homepage\": \"https://github.com/chingu-voyage3/bears-31-api#readme\",\n  \"dependencies\": {\n    \"body-parser\": \"^1.18.2\",\n    \"express\": \"^4.16.2\",\n    \"morgan\": \"^1.9.0\"\n  },\n  \"devDependencies\": {\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"nodemon\": \"^1.12.7\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"hemsut-api\",\n  \"version\": \"1.0.0\",\n  \"description\": \"The Hemsut API\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node src/index.js\",\n    \"dev\": \"nodemon src/index.js\",\n    \"test\": \"mocha --require babel-register --require babel-polyfill --recursive ./tests --exit\",\n    \"e2e-tests\": \"mocha --require babel-register --require babel-polyfill --recursive ./tests/e2e --exit\",\n    \"unit-tests\": \"mocha --require babel-register --require babel-polyfill --recursive ./tests/unit\",\n    \"tdd\": \"npm run unit-tests -- --watch\",\n    \"migrate:latest\": \"node_modules/.bin/knex migrate:latest\",\n    \"migrate:rollback\": \"node_modules/.bin/knex migrate:rollback\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/chingu-voyage3/bears-31-api.git\"\n  },\n  \"keywords\": [\n    \"hemsut\",\n    \"chingu\",\n    \"express\",\n    \"rest\"\n  ],\n  \"author\": \"bears-31\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/chingu-voyage3/bears-31-api/issues\"\n  },\n  \"homepage\": \"https://github.com/chingu-voyage3/bears-31-api#readme\",\n  \"dependencies\": {\n    \"bcrypt\": \"^1.0.3\",\n    \"body-parser\": \"^1.18.2\",\n    \"bookshelf\": \"^0.12.0\",\n    \"cors\": \"^2.8.4\",\n    \"express\": \"^4.16.2\",\n    \"jsonwebtoken\": \"^8.1.0\",\n    \"knex\": \"^0.14.2\",\n    \"morgan\": \"^1.9.0\",\n    \"pg\": \"^7.4.0\"\n  },\n  \"devDependencies\": {\n    \"babel-core\": \"^6.26.0\",\n    \"babel-plugin-transform-class-properties\": \"^6.24.1\",\n    \"babel-polyfill\": \"^6.26.0\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"chai\": \"^4.1.2\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^4.13.1\",\n    \"eslint-config-airbnb-base\": \"^12.1.0\",\n    \"eslint-plugin-import\": \"^2.8.0\",\n    \"mocha\": \"^4.0.1\",\n    \"nodemon\": \"^1.12.7\",\n    \"supertest\": \"^3.0.0\"\n  }\n}\n",
     "longname": "/home/andres/Code/Node/hemsut-api/package.json",
     "name": "package.json",
     "static": true,
