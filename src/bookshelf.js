@@ -1,5 +1,8 @@
 const dbConfig = require('../knexfile');
-const knex = require('knex')(dbConfig);
+
+const environment = process.env.NODE_ENV || 'development';
+console.log(`Trying to connect to: ${environment}`);
+const knex = require('knex')(dbConfig[environment]);
 const bookshelf = require('bookshelf')(knex);
 
 bookshelf.plugin('registry');

@@ -2,7 +2,7 @@
   "name": "hemsut-api",
   "scripts": {
     "postdeploy": [
-      "sequelize db:migrate"
+      "npm run migrate:latest"
     ]
   },
   "env": {
